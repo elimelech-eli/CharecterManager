@@ -5,6 +5,19 @@ dist/
 dist-electron/
 release/
 out/
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Ww][Ii][Nn]32/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Ll]og/
+[Ll]ogs/
+artifacts/
 
 # Dependencies
 node_modules/
@@ -22,6 +35,22 @@ backend-runtime/
 .vs/
 .vscode/
 
+# .NET/NuGet
+project.lock.json
+project.fragment.lock.json
+*.nupkg
+*.snupkg
+*.binlog
+ScaffoldingReadMe.txt
+
+# Test results
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+*.VisualState.xml
+TestResult.xml
+nunit-*.xml
+CodeCoverage/
+
 # Logs
 *.log
 *.tsbuildinfo
@@ -29,6 +58,8 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# OS files
+# OS/editor files
 Thumbs.db
 .DS_Store
+~$*
+*~
