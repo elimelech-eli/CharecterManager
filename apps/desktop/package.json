@@ -1,0 +1,65 @@
+{
+  "name": "character-manager-desktop",
+  "version": "0.1.0",
+  "description": "Electron desktop shell for CharacterManager.",
+  "author": "CharacterManager contributors",
+  "private": true,
+  "type": "module",
+  "main": "dist-electron/main.js",
+  "scripts": {
+    "dev": "vite",
+    "dev:electron": "concurrently -k \"vite --host 127.0.0.1\" \"wait-on http://127.0.0.1:5173 && tsc -p tsconfig.electron.json && electron .\"",
+    "build": "tsc -b && vite build && tsc -p tsconfig.electron.json",
+    "publish:backend": "dotnet publish ../../src/CharacterManager.Api/CharacterManager.Api.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -o backend-publish/win-x64",
+    "copy:backend": "node scripts/copy-backend.mjs",
+    "package:win": "npm run build && npm run publish:backend && npm run copy:backend && electron-builder --win portable",
+    "test:dotnet": "dotnet test ../../tests/CharacterManager.Core.Tests/CharacterManager.Core.Tests.csproj"
+  },
+  "dependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "lucide-react": "^0.468.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.4",
+    "@types/node": "^22.10.2",
+    "@types/react": "^19.0.1",
+    "@types/react-dom": "^19.0.2",
+    "concurrently": "^9.1.0",
+    "electron": "^33.2.1",
+    "electron-builder": "^25.1.8",
+    "typescript": "^5.7.2",
+    "vite": "^6.0.0",
+    "wait-on": "^8.0.1"
+  },
+  "build": {
+    "appId": "com.characterManager.desktop",
+    "productName": "CharacterManager",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/**/*",
+      "dist-electron/**/*",
+      "package.json"
+    ],
+    "extraResources": [
+      {
+        "from": "backend-runtime",
+        "to": "backend"
+      }
+    ],
+    "win": {
+      "signAndEditExecutable": false,
+      "target": [
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "artifactName": "${productName}-${version}-${os}-${arch}.${ext}"
+    }
+  }
+}

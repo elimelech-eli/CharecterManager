@@ -1,0 +1,34 @@
+# Build outputs
+bin/
+obj/
+dist/
+dist-electron/
+release/
+out/
+
+# Dependencies
+node_modules/
+.dotnet-home/
+.npm-cache/
+backend-publish/
+backend-runtime/
+
+# User/local config
+.env
+.env.*
+!.env.example
+*.user
+*.suo
+.vs/
+.vscode/
+
+# Logs
+*.log
+*.tsbuildinfo
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS files
+Thumbs.db
+.DS_Store

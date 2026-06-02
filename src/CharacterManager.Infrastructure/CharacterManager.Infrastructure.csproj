@@ -1,0 +1,5 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <ProjectReference Include="..\CharacterManager.Core\CharacterManager.Core.csproj" />
+  </ItemGroup>
+</Project>
