@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Character Overview Example</title>
+  </head>
+  <body>
+    <aside aria-label="Character navigation">
+      <p>Active Character</p>
+      <h2>Kara Iron-Eyes</h2>
+      <nav>
+        <ul>
+          <li><a href="index.html">Examples Index</a></li>
+          <li><a href="character-overview.html" aria-current="page">Overview</a></li>
+          <li><a href="assets.html">Assets</a></li>
+          <li><a href="bonds.html">Bonds</a></li>
+          <li><a href="vows-progress.html">Vows &amp; Progress</a></li>
+          <li><a href="conditions.html">Conditions</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <main aria-labelledby="character-overview-title">
+      <header>
+        <p>Active Character</p>
+        <h1 id="character-overview-title">Kara Iron-Eyes</h1>
+        <p>Exiled scout sworn to recover a lost banner.</p>
+        <p>Saved locally</p>
+      </header>
+
+      <section aria-label="Stats">
+        <h2>Stats</h2>
+        <dl>
+          <dt>Edge</dt><dd>3</dd>
+          <dt>Heart</dt><dd>2</dd>
+          <dt>Iron</dt><dd>2</dd>
+          <dt>Shadow</dt><dd>1</dd>
+          <dt>Wits</dt><dd>1</dd>
+        </dl>
+      </section>
+
+      <section aria-label="Core state">
+        <article><h2>Health</h2><output>5</output><button type="button">Decrease</button><button type="button">Increase</button></article>
+        <article><h2>Spirit</h2><output>4</output><button type="button">Decrease</button><button type="button">Increase</button></article>
+        <article><h2>Supply</h2><output>3</output><button type="button">Decrease</button><button type="button">Increase</button></article>
+        <article><h2>Momentum</h2><output>2</output><p>Max 10, reset 2</p><button type="button">Decrease</button><button type="button">Increase</button></article>
+      </section>
+
+      <section aria-labelledby="active-vows-title">
+        <h2 id="active-vows-title">Active Vows</h2>
+        <article>
+          <h3>Recover the lost banner</h3>
+          <p>Dangerous, active</p>
+          <progress value="8" max="40">8 ticks</progress>
+          <button type="button">Mark Progress</button>
+        </article>
+      </section>
+
+      <section aria-labelledby="quick-note-title">
+        <h2 id="quick-note-title">Quick Note</h2>
+        <label>State change note <input name="quick-note" /></label>
+        <button type="button">Save Note</button>
+      </section>
+    </main>
+  </body>
+</html>

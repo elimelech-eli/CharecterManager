@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Vows and Progress Screen Example</title>
+  </head>
+  <body>
+    <aside aria-label="Character navigation">
+      <p>Kara Iron-Eyes</p>
+      <nav>
+        <ul>
+          <li><a href="character-overview.html">Overview</a></li>
+          <li><a href="assets.html">Assets</a></li>
+          <li><a href="bonds.html">Bonds</a></li>
+          <li><a href="vows-progress.html" aria-current="page">Vows &amp; Progress</a></li>
+          <li><a href="conditions.html">Conditions</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <main aria-labelledby="vows-progress-title">
+      <header>
+        <h1 id="vows-progress-title">Vows &amp; Progress</h1>
+        <p>Manual progress management for vows and other tracks.</p>
+        <button type="button">Add Vow</button>
+        <button type="button">Add Progress Track</button>
+      </header>
+
+      <section aria-labelledby="active-vows-title">
+        <h2 id="active-vows-title">Active Vows</h2>
+        <article>
+          <header>
+            <h3>Recover the lost banner</h3>
+            <p>Dangerous, active</p>
+          </header>
+          <progress value="8" max="40">8 ticks</progress>
+          <button type="button">Mark Tick</button>
+          <button type="button">Mark Progress</button>
+          <button type="button">Fulfill or Forsake</button>
+        </article>
+      </section>
+
+      <section aria-labelledby="other-tracks-title">
+        <h2 id="other-tracks-title">Other Tracks</h2>
+        <article>
+          <h3>Journey to Ravencliff</h3>
+          <p>Formidable journey</p>
+          <progress value="14" max="40">14 ticks</progress>
+          <button type="button">Add Tick</button>
+          <button type="button">Add Progress</button>
+        </article>
+      </section>
+    </main>
+  </body>
+</html>

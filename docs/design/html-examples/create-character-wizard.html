@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Create Character Wizard Example</title>
+  </head>
+  <body>
+    <aside aria-label="Application navigation">
+      <p>Ironsworn</p>
+      <nav>
+        <ul>
+          <li><a href="index.html">Examples Index</a></li>
+          <li><a href="character-library.html">Characters</a></li>
+          <li><a href="create-character-wizard.html" aria-current="page">Create Character</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <main aria-labelledby="create-character-title">
+      <header>
+        <p>Character Creation</p>
+        <h1 id="create-character-title">Create Character</h1>
+        <p>Draft saved locally</p>
+      </header>
+
+      <nav aria-label="Creation steps">
+        <ol>
+          <li aria-current="step">Concept</li>
+          <li>Stats</li>
+          <li>Assets</li>
+          <li>Bonds</li>
+          <li>Starting Vow</li>
+          <li>Review</li>
+        </ol>
+      </nav>
+
+      <form aria-label="Current creation step">
+        <section aria-labelledby="current-step-title">
+          <h2 id="current-step-title">Character Concept</h2>
+          <p>Name the character and capture the broad concept before mechanical choices.</p>
+          <label>Name <input name="character-name" required /></label>
+          <label>Concept <input name="concept" /></label>
+          <label>Background Notes <textarea name="background-notes"></textarea></label>
+          <label>Equipment Notes <textarea name="equipment-notes"></textarea></label>
+        </section>
+
+        <section aria-labelledby="guidance-title">
+          <h2 id="guidance-title">Guidance</h2>
+          <p>Equipment is narrative for MVP unless it is represented by an asset or supply.</p>
+        </section>
+
+        <footer>
+          <button type="button">Back</button>
+          <button type="button">Save Draft</button>
+          <button type="submit">Continue</button>
+        </footer>
+      </form>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Bonds Screen Example</title>
+  </head>
+  <body>
+    <aside aria-label="Character navigation">
+      <p>Kara Iron-Eyes</p>
+      <nav>
+        <ul>
+          <li><a href="character-overview.html">Overview</a></li>
+          <li><a href="assets.html">Assets</a></li>
+          <li><a href="bonds.html" aria-current="page">Bonds</a></li>
+          <li><a href="vows-progress.html">Vows &amp; Progress</a></li>
+          <li><a href="conditions.html">Conditions</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <main aria-labelledby="bonds-title">
+      <header>
+        <h1 id="bonds-title">Bonds</h1>
+        <p>Relationships with people, communities, and factions.</p>
+        <button type="button">Add Bond</button>
+      </header>
+
+      <section aria-labelledby="bonds-progress-title">
+        <h2 id="bonds-progress-title">Bonds Progress</h2>
+        <progress value="12" max="40">12 ticks</progress>
+        <button type="button">Mark Tick</button>
+      </section>
+
+      <section aria-label="Bond records">
+        <article>
+          <h2>Ravencliff Village</h2>
+          <p>Community that sheltered Kara during winter.</p>
+          <dl>
+            <dt>Status</dt><dd>Active</dd>
+            <dt>Location</dt><dd>Ravencliff</dd>
+          </dl>
+          <button type="button">Edit</button>
+        </article>
+
+        <article>
+          <h2>Edda of the Ford</h2>
+          <p>Old hunter who taught Kara the northern trail signs.</p>
+          <button type="button">Edit</button>
+        </article>
+      </section>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Character Library Example</title>
+  </head>
+  <body>
+    <aside aria-label="Application navigation">
+      <p>Ironsworn</p>
+      <nav>
+        <ul>
+          <li><a href="index.html">Examples Index</a></li>
+          <li><a href="character-library.html" aria-current="page">Characters</a></li>
+          <li><a href="settings.html">Settings</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <main aria-labelledby="character-library-title">
+      <header>
+        <p>Characters</p>
+        <h1 id="character-library-title">Character Library</h1>
+        <p>Open a saved character, resume a draft, or begin a new Ironsworn character.</p>
+        <button type="button">New Character</button>
+      </header>
+
+      <section aria-labelledby="library-controls-title">
+        <h2 id="library-controls-title">Library Controls</h2>
+        <label>Search characters <input name="character-search" /></label>
+        <label>Filter
+          <select name="character-filter">
+            <option>All characters</option>
+            <option>Complete characters</option>
+            <option>Drafts</option>
+          </select>
+        </label>
+      </section>
+
+      <section aria-label="Saved characters">
+        <article>
+          <header>
+            <h2>Kara Iron-Eyes</h2>
+            <p>Complete character</p>
+          </header>
+          <p>Exiled scout sworn to recover a lost banner.</p>
+          <dl>
+            <dt>Health</dt><dd>5</dd>
+            <dt>Spirit</dt><dd>4</dd>
+            <dt>Supply</dt><dd>3</dd>
+            <dt>Momentum</dt><dd>2</dd>
+          </dl>
+          <button type="button">Open Character</button>
+        </article>
+
+        <article>
+          <header>
+            <h2>Unnamed Wanderer</h2>
+            <p>Draft character</p>
+          </header>
+          <p>Missing name, assets, and starting vow.</p>
+          <button type="button">Resume Draft</button>
+        </article>
+      </section>
+
+      <section aria-labelledby="empty-state-title">
+        <h2 id="empty-state-title">Empty State Example</h2>
+        <p>No characters yet. Create a standard Ironsworn core character to begin.</p>
+        <button type="button">New Character</button>
+      </section>
+    </main>
+  </body>
+</html>

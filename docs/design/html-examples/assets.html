@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Assets Screen Example</title>
+  </head>
+  <body>
+    <aside aria-label="Character navigation">
+      <p>Kara Iron-Eyes</p>
+      <nav>
+        <ul>
+          <li><a href="character-overview.html">Overview</a></li>
+          <li><a href="assets.html" aria-current="page">Assets</a></li>
+          <li><a href="bonds.html">Bonds</a></li>
+          <li><a href="vows-progress.html">Vows &amp; Progress</a></li>
+          <li><a href="conditions.html">Conditions</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <main aria-labelledby="assets-title">
+      <header>
+        <h1 id="assets-title">Assets</h1>
+        <p>Selected assets, chosen abilities, companion details, and notes.</p>
+      </header>
+
+      <nav aria-label="Asset filters">
+        <ul>
+          <li><button type="button">All</button></li>
+          <li><button type="button">Companion</button></li>
+          <li><button type="button">Path</button></li>
+          <li><button type="button">Combat Talent</button></li>
+          <li><button type="button">Ritual</button></li>
+        </ul>
+      </nav>
+
+      <section aria-label="Selected assets">
+        <article>
+          <header>
+            <p>Path</p>
+            <h2>Wayfinder</h2>
+          </header>
+          <p>Summary or source reference appears here until full asset text is approved.</p>
+          <ul>
+            <li><label><input type="checkbox" checked /> Starting ability selected</label></li>
+            <li><label><input type="checkbox" /> Upgrade slot</label></li>
+            <li><label><input type="checkbox" /> Upgrade slot</label></li>
+          </ul>
+          <label>Asset notes <textarea name="asset-notes"></textarea></label>
+        </article>
+
+        <article>
+          <header>
+            <p>Companion</p>
+            <h2>Raven</h2>
+          </header>
+          <label>Companion name <input name="companion-name" value="Ash" /></label>
+          <label>Companion notes <textarea name="companion-notes"></textarea></label>
+        </article>
+      </section>
+    </main>
+  </body>
+</html>
