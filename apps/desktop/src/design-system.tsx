@@ -14,12 +14,29 @@ function joinClassNames(...classNames: Array<string | false | null | undefined>)
 
 type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   icon?: ReactNode;
+  pressed?: boolean;
   variant?: "primary" | "secondary" | "accent" | "danger";
 };
 
-export function Button({ children, className, icon, variant = "primary", ...props }: ButtonProps) {
+export function Button({
+  children,
+  className,
+  icon,
+  pressed = false,
+  variant = "primary",
+  ...props
+}: ButtonProps) {
   return (
-    <button className={joinClassNames("ui-button", `ui-button--${variant}`, className)} {...props}>
+    <button
+      aria-pressed={pressed || undefined}
+      className={joinClassNames(
+        "ui-button",
+        `ui-button--${variant}`,
+        pressed && "ui-button--pressed",
+        className
+      )}
+      {...props}
+    >
       {icon ? <span className="ui-button__icon">{icon}</span> : null}
       <span>{children}</span>
     </button>
@@ -132,9 +149,10 @@ export function Radio({ className, label, ...props }: RadioProps) {
 
 type TabsProps = {
   tabs: Array<{ active?: boolean; label: string }>;
+  onSelect?: (label: string) => void;
 };
 
-export function Tabs({ tabs }: TabsProps) {
+export function Tabs({ onSelect, tabs }: TabsProps) {
   return (
     <div className="ui-tabs" role="tablist" aria-label="Demo tabs">
       {tabs.map((tab) => (
@@ -142,8 +160,9 @@ export function Tabs({ tabs }: TabsProps) {
           aria-selected={tab.active ? "true" : "false"}
           className={joinClassNames("ui-tab", tab.active && "ui-tab--active")}
           key={tab.label}
+          onClick={() => onSelect?.(tab.label)}
           role="tab"
-          tabIndex={tab.active ? 0 : -1}
+          tabIndex={0}
           type="button"
         >
           {tab.label}

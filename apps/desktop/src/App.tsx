@@ -8,12 +8,14 @@ import {
   Info,
   Library,
   Map,
+  Search,
   Shield,
   Sparkle,
   SquarePen,
   Swords,
   X
 } from "lucide-react";
+import { useState } from "react";
 import {
   Badge,
   Button,
@@ -64,7 +66,19 @@ const spacingTokens = [
   ["spacing-4xl", "64px"]
 ];
 
+const notesText = `Weathered, readable, and useful before decorative.
+
+An iron vow begins with a clear record: who swore it, why it matters, and what progress has already been marked.
+
+Long notes should remain calm to read and practical to search. The field keeps its dark input surface, the search affordance stays attached, and the scrollbar appears only when the text grows beyond the available height.
+
+Use this pattern for journals, vow notes, asset notes, and compact reference text where scanning matters more than ornament.`;
+
 export function App() {
+  const [pressedButton, setPressedButton] = useState("Primary");
+  const [activeTab, setActiveTab] = useState("Overview");
+  const [activeSidebarItem, setActiveSidebarItem] = useState("Characters");
+
   return (
     <main className="ds-page">
       <header className="ds-hero">
@@ -158,14 +172,35 @@ export function App() {
         <div className="ds-componentGrid">
           <Panel title="Buttons" eyebrow="Actions">
             <div className="ds-row">
-              <Button icon={<SquarePen />}>Primary</Button>
-              <Button variant="secondary" icon={<BookOpen />}>
+              <Button
+                icon={<SquarePen />}
+                onClick={() => setPressedButton("Primary")}
+                pressed={pressedButton === "Primary"}
+              >
+                Primary
+              </Button>
+              <Button
+                variant="secondary"
+                icon={<BookOpen />}
+                onClick={() => setPressedButton("Secondary")}
+                pressed={pressedButton === "Secondary"}
+              >
                 Secondary
               </Button>
-              <Button variant="accent" icon={<Sparkle />}>
+              <Button
+                variant="accent"
+                icon={<Sparkle />}
+                onClick={() => setPressedButton("Gold Accent")}
+                pressed={pressedButton === "Gold Accent"}
+              >
                 Gold Accent
               </Button>
-              <Button variant="danger" icon={<X />}>
+              <Button
+                variant="danger"
+                icon={<X />}
+                onClick={() => setPressedButton("Danger")}
+                pressed={pressedButton === "Danger"}
+              >
                 Danger
               </Button>
             </div>
@@ -183,7 +218,13 @@ export function App() {
                 </Select>
               </Field>
               <Field label="Notes">
-                <Textarea defaultValue="Weathered, readable, and useful before decorative." />
+                <div className="ds-notesControl">
+                  <span className="ds-notesSearch">
+                    <Search aria-hidden="true" />
+                    <Input aria-label="Search notes" placeholder="Search notes" type="search" />
+                  </span>
+                  <Textarea className="ds-notesTextarea" defaultValue={notesText} />
+                </div>
               </Field>
             </div>
           </Panel>
@@ -198,21 +239,38 @@ export function App() {
 
           <Panel title="Tabs" eyebrow="Navigation">
             <Tabs
+              onSelect={setActiveTab}
               tabs={[
-                { label: "Overview", active: true },
-                { label: "Assets" },
-                { label: "Vows" }
+                { label: "Overview", active: activeTab === "Overview" },
+                { label: "Assets", active: activeTab === "Assets" },
+                { label: "Vows", active: activeTab === "Vows" }
               ]}
             />
           </Panel>
 
           <Panel title="Sidebar Item" eyebrow="Navigation">
             <div className="ds-sidebarSample">
-              <SidebarItem active icon={<Library />}>
+              <SidebarItem
+                active={activeSidebarItem === "Characters"}
+                icon={<Library />}
+                onClick={() => setActiveSidebarItem("Characters")}
+              >
                 Characters
               </SidebarItem>
-              <SidebarItem icon={<Shield />}>Rules</SidebarItem>
-              <SidebarItem icon={<Map />}>Journal</SidebarItem>
+              <SidebarItem
+                active={activeSidebarItem === "Rules"}
+                icon={<Shield />}
+                onClick={() => setActiveSidebarItem("Rules")}
+              >
+                Rules
+              </SidebarItem>
+              <SidebarItem
+                active={activeSidebarItem === "Journal"}
+                icon={<Map />}
+                onClick={() => setActiveSidebarItem("Journal")}
+              >
+                Journal
+              </SidebarItem>
             </div>
           </Panel>
 
