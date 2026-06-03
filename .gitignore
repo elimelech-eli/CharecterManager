@@ -63,3 +63,6 @@ Thumbs.db
 .DS_Store
 ~$*
 *~
+
+# Local reference documents
+docs/*.pdf
