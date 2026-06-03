@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Create Character Flow Example</title>
+  </head>
+  <body>
+    <header>
+      <p><a href="index.html">Examples Index</a></p>
+      <h1>Create Character Flow</h1>
+      <p>A single-page review of the complete wizard journey.</p>
+    </header>
+
+    <main>
+      <nav aria-label="Creation flow steps">
+        <ol>
+          <li><a href="#concept">Character Concept</a></li>
+          <li><a href="#stats">Stats</a></li>
+          <li><a href="#assets">Assets</a></li>
+          <li><a href="#bonds">Bonds</a></li>
+          <li><a href="#vow">Starting Vow</a></li>
+          <li><a href="#review">Review</a></li>
+          <li><a href="#created">Create Character</a></li>
+        </ol>
+      </nav>
+
+      <form aria-labelledby="concept">
+        <h2 id="concept">Step 1: Character Concept</h2>
+        <label>Name <input name="name" required /></label>
+        <label>Concept <input name="concept" /></label>
+        <label>Background Notes <textarea name="background-notes"></textarea></label>
+        <label>Equipment Notes <textarea name="equipment-notes"></textarea></label>
+      </form>
+
+      <form aria-labelledby="stats">
+        <h2 id="stats">Step 2: Stats</h2>
+        <p>Assign the starting values 3, 2, 2, 1, and 1.</p>
+        <fieldset>
+          <legend>Assign stat values</legend>
+          <label>Edge <select name="edge"><option></option><option>3</option><option>2</option><option>1</option></select></label>
+          <label>Heart <select name="heart"><option></option><option>3</option><option>2</option><option>1</option></select></label>
+          <label>Iron <select name="iron"><option></option><option>3</option><option>2</option><option>1</option></select></label>
+          <label>Shadow <select name="shadow"><option></option><option>3</option><option>2</option><option>1</option></select></label>
+          <label>Wits <select name="wits"><option></option><option>3</option><option>2</option><option>1</option></select></label>
+        </fieldset>
+      </form>
+
+      <form aria-labelledby="assets-step">
+        <h2 id="assets-step">Step 3: Assets</h2>
+        <p>Choose three starting assets.</p>
+        <section aria-label="Asset choices">
+          <article>
+            <h3>Wayfinder</h3>
+            <p>Path asset summary or source reference.</p>
+            <label><input type="checkbox" name="asset" value="wayfinder" /> Select asset</label>
+          </article>
+        </section>
+        <p aria-live="polite">2 of 3 selected</p>
+      </form>
+
+      <form aria-labelledby="bonds-step">
+        <h2 id="bonds-step">Step 4: Bonds</h2>
+        <p>Add up to three background bonds, or continue with none.</p>
+        <fieldset>
+          <legend>Background bond</legend>
+          <label>Name <input name="bond-name" /></label>
+          <label>Relationship <input name="bond-relationship" /></label>
+          <label>Notes <textarea name="bond-notes"></textarea></label>
+        </fieldset>
+      </form>
+
+      <form aria-labelledby="vow-step">
+        <h2 id="vow-step">Step 5: Starting Vow</h2>
+        <fieldset>
+          <legend>Background vow</legend>
+          <label>Title <input name="background-vow-title" /></label>
+          <label>Rank <select name="background-vow-rank"><option>Extreme</option><option>Epic</option></select></label>
+          <label>Notes <textarea name="background-vow-notes"></textarea></label>
+        </fieldset>
+        <fieldset>
+          <legend>Inciting-incident vow</legend>
+          <label>Title <input name="inciting-vow-title" /></label>
+          <label>Rank <select name="inciting-vow-rank"><option>Troublesome</option><option>Dangerous</option><option>Formidable</option></select></label>
+        </fieldset>
+      </form>
+
+      <section aria-labelledby="review">
+        <h2 id="review">Step 6: Review</h2>
+        <section aria-labelledby="validation-title">
+          <h3 id="validation-title">Validation</h3>
+          <ul>
+            <li>Stats use 3, 2, 2, 1, 1</li>
+            <li>Three assets selected</li>
+            <li>At least one active vow exists</li>
+          </ul>
+        </section>
+        <button type="button">Save Draft</button>
+        <button type="button">Create Character</button>
+      </section>
+
+      <section aria-labelledby="created">
+        <h2 id="created">Step 7: Character Created</h2>
+        <p>Kara Iron-Eyes is ready for play.</p>
+        <a href="character-overview.html">Open Character</a>
+        <a href="character-library.html">Back to Library</a>
+      </section>
+    </main>
+  </body>
+</html>

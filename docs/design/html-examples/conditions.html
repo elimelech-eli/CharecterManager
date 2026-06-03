@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Conditions Screen Example</title>
+  </head>
+  <body>
+    <aside aria-label="Character navigation">
+      <p>Kara Iron-Eyes</p>
+      <nav>
+        <ul>
+          <li><a href="character-overview.html">Overview</a></li>
+          <li><a href="assets.html">Assets</a></li>
+          <li><a href="bonds.html">Bonds</a></li>
+          <li><a href="vows-progress.html">Vows &amp; Progress</a></li>
+          <li><a href="conditions.html" aria-current="page">Conditions</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <main aria-labelledby="conditions-title">
+      <header>
+        <h1 id="conditions-title">Conditions</h1>
+        <p>Health, spirit, supply, momentum, and debilities.</p>
+      </header>
+
+      <section aria-label="Meters">
+        <article><h2>Health</h2><output>5</output><button type="button">Decrease</button><button type="button">Increase</button></article>
+        <article><h2>Spirit</h2><output>4</output><button type="button">Decrease</button><button type="button">Increase</button></article>
+        <article><h2>Supply</h2><output>3</output><button type="button">Decrease</button><button type="button">Increase</button></article>
+        <article>
+          <h2>Momentum</h2>
+          <output>2</output>
+          <dl>
+            <dt>Max</dt><dd>9</dd>
+            <dt>Reset</dt><dd>1</dd>
+          </dl>
+          <button type="button">Decrease</button>
+          <button type="button">Increase</button>
+          <button type="button">Reset Momentum</button>
+        </article>
+      </section>
+
+      <section aria-labelledby="debilities-title">
+        <h2 id="debilities-title">Debilities</h2>
+        <fieldset>
+          <legend>Conditions</legend>
+          <label><input type="checkbox" /> Wounded</label>
+          <label><input type="checkbox" checked /> Shaken</label>
+          <label><input type="checkbox" /> Unprepared</label>
+          <label><input type="checkbox" /> Encumbered</label>
+        </fieldset>
+        <fieldset>
+          <legend>Banes</legend>
+          <label><input type="checkbox" /> Maimed</label>
+          <label><input type="checkbox" /> Corrupted</label>
+        </fieldset>
+        <fieldset>
+          <legend>Burdens</legend>
+          <label><input type="checkbox" /> Cursed</label>
+          <label><input type="checkbox" /> Tormented</label>
+        </fieldset>
+      </section>
+    </main>
+  </body>
+</html>
