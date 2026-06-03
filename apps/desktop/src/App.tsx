@@ -1,110 +1,265 @@
-import { useEffect, useState } from "react";
-import { Activity, Cloud, Dice5, ShieldCheck } from "lucide-react";
+import {
+  BookOpen,
+  Check,
+  ChevronDown,
+  CircleAlert,
+  CircleCheck,
+  CircleDot,
+  Info,
+  Library,
+  Map,
+  Shield,
+  Sparkle,
+  SquarePen,
+  Swords,
+  X
+} from "lucide-react";
+import {
+  Badge,
+  Button,
+  Card,
+  Checkbox,
+  Field,
+  Input,
+  Meter,
+  ModalSurface,
+  Panel,
+  Radio,
+  Select,
+  SidebarItem,
+  Tabs,
+  Textarea,
+  TooltipSurface
+} from "./design-system";
 
-type HealthState =
-  | { status: "loading" }
-  | { status: "ready"; service: string; version: string }
-  | { status: "error"; message: string };
+const colorTokens = [
+  ["background-primary", "#0B090F"],
+  ["background-secondary", "#14111B"],
+  ["surface", "#1C1824"],
+  ["surface-elevated", "#262030"],
+  ["purple-100", "#E7DCF8"],
+  ["purple-200", "#C8B2EA"],
+  ["purple-300", "#9E78D3"],
+  ["purple-400", "#6F45A8"],
+  ["purple-500", "#3D255F"],
+  ["gold-100", "#F4E7BA"],
+  ["gold-200", "#D7B96A"],
+  ["gold-300", "#A98235"],
+  ["gold-400", "#6F5224"],
+  ["success", "#7EA66A"],
+  ["warning", "#C49A4A"],
+  ["danger", "#B85F56"],
+  ["info", "#6F93B8"]
+];
 
-async function loadHealth(): Promise<HealthState> {
-  const baseUrl = window.characterManager
-    ? await window.characterManager.getBackendBaseUrl()
-    : "http://127.0.0.1:53987";
-
-  const response = await fetch(`${baseUrl}/health`);
-  if (!response.ok) {
-    return { status: "error", message: `Backend returned HTTP ${response.status}` };
-  }
-
-  const payload = (await response.json()) as { service: string; version: string };
-  return { status: "ready", service: payload.service, version: payload.version };
-}
+const spacingTokens = [
+  ["spacing-2xs", "2px"],
+  ["spacing-xs", "4px"],
+  ["spacing-sm", "8px"],
+  ["spacing-md", "12px"],
+  ["spacing-lg", "16px"],
+  ["spacing-xl", "24px"],
+  ["spacing-2xl", "32px"],
+  ["spacing-3xl", "48px"],
+  ["spacing-4xl", "64px"]
+];
 
 export function App() {
-  const [health, setHealth] = useState<HealthState>({ status: "loading" });
-
-  useEffect(() => {
-    let cancelled = false;
-
-    loadHealth()
-      .then((state) => {
-        if (!cancelled) {
-          setHealth(state);
-        }
-      })
-      .catch((error: unknown) => {
-        if (!cancelled) {
-          setHealth({
-            status: "error",
-            message: error instanceof Error ? error.message : "Unknown backend error"
-          });
-        }
-      });
-
-    return () => {
-      cancelled = true;
-    };
-  }, []);
-
   return (
-    <main className="shell">
-      <aside className="sidebar" aria-label="Primary navigation">
-        <div className="brand">
-          <Dice5 aria-hidden="true" />
-          <span>CharacterManager</span>
-        </div>
-        <nav>
-          <button className="navItem active" type="button">
-            <Activity aria-hidden="true" />
-            Dashboard
-          </button>
-          <button className="navItem" type="button">
-            <ShieldCheck aria-hidden="true" />
-            Ironsworn
-          </button>
-          <button className="navItem" type="button">
-            <Cloud aria-hidden="true" />
-            Atlas
-          </button>
-        </nav>
-      </aside>
+    <main className="ds-page">
+      <header className="ds-hero">
+        <div className="ds-eyebrow">Design System Demo</div>
+        <h1>Ironsworn Character Manager</h1>
+        <p>
+          Reusable foundations for Lena's dark fantasy interface language: calm surfaces,
+          readable type, antique gold emphasis, and restrained royal purple controls.
+        </p>
+      </header>
 
-      <section className="workspace">
-        <header className="topbar">
+      <section className="ds-section">
+        <div className="ds-sectionHeader">
           <div>
-            <p className="eyebrow">Ironsworn starter workspace</p>
-            <h1>Character operations</h1>
+            <div className="ds-label">Color</div>
+            <h2>Core Palette</h2>
           </div>
-          <div className={`statusPill ${health.status}`}>
-            {health.status === "ready" ? "Backend online" : health.status}
+          <p>Exact design tokens from Lena's system, translated into CSS variables.</p>
+        </div>
+        <div className="ds-colorGrid">
+          {colorTokens.map(([name, value]) => (
+            <Card key={name} className="ds-swatch">
+              <div className="ds-swatchColor" style={{ backgroundColor: value }} />
+              <div className="ds-tokenBody">
+                <strong>{name}</strong>
+                <code>{value}</code>
+              </div>
+            </Card>
+          ))}
+        </div>
+      </section>
+
+      <section className="ds-section">
+        <div className="ds-sectionHeader">
+          <div>
+            <div className="ds-label">Typography</div>
+            <h2>Readable Mythic Type</h2>
           </div>
-        </header>
+        </div>
+        <Panel className="ds-typePanel">
+          <div className="ds-typeRow">
+            <span>H1 40 / 48</span>
+            <div className="ds-typeSample ds-typeH1">Swear an Iron Vow</div>
+          </div>
+          <div className="ds-typeRow">
+            <span>H2 32 / 40</span>
+            <div className="ds-typeSample ds-typeH2">Character Chronicle</div>
+          </div>
+          <div className="ds-typeRow">
+            <span>H3 24 / 32</span>
+            <div className="ds-typeSample ds-typeH3">Bonds and Progress</div>
+          </div>
+          <div className="ds-typeRow">
+            <span>Body 16 / 24</span>
+            <div className="ds-typeSample">Default interface text remains crisp and useful.</div>
+          </div>
+          <div className="ds-typeRow">
+            <span>Caption 12 / 16</span>
+            <div className="ds-typeSample ds-caption">Ancient Archive</div>
+          </div>
+        </Panel>
+      </section>
 
-        <section className="panelGrid" aria-label="Application status">
-          <article className="panel">
-            <h2>Rules engine</h2>
-            <p>Schema-driven rulesets with .NET extension points for game-specific behavior.</p>
-          </article>
-          <article className="panel">
-            <h2>Cloud data</h2>
-            <p>Atlas adapters are isolated in infrastructure so global rules and assets can evolve safely.</p>
-          </article>
-          <article className="panel">
-            <h2>Portable release</h2>
-            <p>Electron will bundle the published .NET backend into the Windows portable executable.</p>
-          </article>
-        </section>
+      <section className="ds-section">
+        <div className="ds-sectionHeader">
+          <div>
+            <div className="ds-label">Spacing</div>
+            <h2>8px Rhythm</h2>
+          </div>
+        </div>
+        <Panel>
+          {spacingTokens.map(([name, value]) => (
+            <div className="ds-spacingRow" key={name}>
+              <strong>{name}</strong>
+              <span className="ds-spacingTrack">
+                <span style={{ width: value }} />
+              </span>
+              <code>{value}</code>
+            </div>
+          ))}
+        </Panel>
+      </section>
 
-        <section className="backendBox" aria-label="Backend health">
-          <h2>Backend health</h2>
-          {health.status === "ready" && (
-            <p>
-              Connected to {health.service} version {health.version}.
-            </p>
-          )}
-          {health.status === "loading" && <p>Checking local service...</p>}
-          {health.status === "error" && <p>{health.message}</p>}
-        </section>
+      <section className="ds-section">
+        <div className="ds-sectionHeader">
+          <div>
+            <div className="ds-label">Primitives</div>
+            <h2>Core Components</h2>
+          </div>
+        </div>
+        <div className="ds-componentGrid">
+          <Panel title="Buttons" eyebrow="Actions">
+            <div className="ds-row">
+              <Button icon={<SquarePen />}>Primary</Button>
+              <Button variant="secondary" icon={<BookOpen />}>
+                Secondary
+              </Button>
+              <Button variant="accent" icon={<Sparkle />}>
+                Gold Accent
+              </Button>
+              <Button variant="danger" icon={<X />}>
+                Danger
+              </Button>
+            </div>
+          </Panel>
+
+          <Panel title="Fields" eyebrow="Forms">
+            <div className="ds-formGrid">
+              <Field label="Name" helpText="Standard input styling.">
+                <Input defaultValue="Kara Iron-Eyes" />
+              </Field>
+              <Field label="Path">
+                <Select defaultValue="shadow-kin" icon={<ChevronDown />}>
+                  <option value="shadow-kin">Shadow-Kin</option>
+                  <option value="banner">Banner-Bound</option>
+                </Select>
+              </Field>
+              <Field label="Notes">
+                <Textarea defaultValue="Weathered, readable, and useful before decorative." />
+              </Field>
+            </div>
+          </Panel>
+
+          <Panel title="Selection" eyebrow="Controls">
+            <div className="ds-row">
+              <Checkbox defaultChecked label="Marked" />
+              <Radio defaultChecked name="demo-choice" label="Chosen" />
+              <Radio name="demo-choice" label="Quiet" />
+            </div>
+          </Panel>
+
+          <Panel title="Tabs" eyebrow="Navigation">
+            <Tabs
+              tabs={[
+                { label: "Overview", active: true },
+                { label: "Assets" },
+                { label: "Vows" }
+              ]}
+            />
+          </Panel>
+
+          <Panel title="Sidebar Item" eyebrow="Navigation">
+            <div className="ds-sidebarSample">
+              <SidebarItem active icon={<Library />}>
+                Characters
+              </SidebarItem>
+              <SidebarItem icon={<Shield />}>Rules</SidebarItem>
+              <SidebarItem icon={<Map />}>Journal</SidebarItem>
+            </div>
+          </Panel>
+
+          <Panel title="Surfaces" eyebrow="Layers">
+            <div className="ds-surfaceStack">
+              <Card title="Default Card">Ledger-like surface with subtle border.</Card>
+              <Card elevated title="Elevated Card">
+                Raised content uses the softer candlelit shadow.
+              </Card>
+            </div>
+          </Panel>
+
+          <Panel title="Status Chips" eyebrow="State">
+            <div className="ds-row">
+              <Badge tone="success" icon={<CircleCheck />}>
+                Success
+              </Badge>
+              <Badge tone="warning" icon={<CircleAlert />}>
+                Warning
+              </Badge>
+              <Badge tone="danger" icon={<Swords />}>
+                Danger
+              </Badge>
+              <Badge tone="info" icon={<Info />}>
+                Info
+              </Badge>
+            </div>
+          </Panel>
+
+          <Panel title="Tooltip" eyebrow="Overlay">
+            <TooltipSurface>Progress is marked in ten boxes.</TooltipSurface>
+          </Panel>
+
+          <Panel title="Progress Meter" eyebrow="Visual">
+            <Meter value={60} label="Vow progress" />
+          </Panel>
+
+          <Panel title="Modal Surface" eyebrow="Overlay">
+            <ModalSurface title="Archive Note" icon={<CircleDot />}>
+              Temporary highest layer with stronger shadow, clear border, and practical type.
+              <div className="ds-modalActions">
+                <Button variant="secondary">Cancel</Button>
+                <Button icon={<Check />}>Confirm</Button>
+              </div>
+            </ModalSurface>
+          </Panel>
+        </div>
       </section>
     </main>
   );
