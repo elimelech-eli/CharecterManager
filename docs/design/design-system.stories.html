@@ -1,0 +1,733 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Ironsworn Design System Stories</title>
+    <style>
+      :root {
+        --color-background-primary: #0b090f;
+        --color-background-secondary: #14111b;
+        --color-surface: #1c1824;
+        --color-surface-elevated: #262030;
+        --color-purple-100: #e7dcf8;
+        --color-purple-200: #c8b2ea;
+        --color-purple-300: #9e78d3;
+        --color-purple-400: #6f45a8;
+        --color-purple-500: #3d255f;
+        --color-gold-100: #f4e7ba;
+        --color-gold-200: #d7b96a;
+        --color-gold-300: #a98235;
+        --color-gold-400: #6f5224;
+        --color-text-primary: #f2ede2;
+        --color-text-secondary: #c8bfae;
+        --color-text-muted: #8e8474;
+        --color-success: #7ea66a;
+        --color-warning: #c49a4a;
+        --color-danger: #b85f56;
+        --color-info: #6f93b8;
+        --color-border-subtle: #2e2936;
+        --color-border-normal: #4a4058;
+        --color-border-strong: #8e6f3a;
+        --font-heading: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+        --font-body: "Inter", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        --spacing-xs: 4px;
+        --spacing-sm: 8px;
+        --spacing-md: 12px;
+        --spacing-lg: 16px;
+        --spacing-xl: 24px;
+        --spacing-2xl: 32px;
+        --spacing-3xl: 48px;
+        --radius-sm: 4px;
+        --radius-md: 6px;
+        --radius-lg: 8px;
+        --shadow-raised: 0 12px 32px rgba(0, 0, 0, 0.28);
+        --shadow-modal: 0 24px 80px rgba(0, 0, 0, 0.48);
+        --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background:
+          linear-gradient(180deg, rgba(61, 37, 95, 0.16), rgba(11, 9, 15, 0) 280px),
+          var(--color-background-primary);
+        color: var(--color-text-primary);
+        font-family: var(--font-body);
+        font-size: 16px;
+        line-height: 1.5;
+      }
+
+      .page {
+        width: min(1200px, calc(100vw - 48px));
+        margin: 0 auto;
+        padding: 48px 0 72px;
+      }
+
+      .hero {
+        border-bottom: 1px solid var(--color-border-subtle);
+        margin-bottom: var(--spacing-3xl);
+        padding-bottom: var(--spacing-2xl);
+      }
+
+      .eyebrow,
+      .label {
+        color: var(--color-gold-200);
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      h1,
+      h2,
+      h3 {
+        font-family: var(--font-heading);
+        font-weight: 600;
+        letter-spacing: 0;
+        margin: 0;
+      }
+
+      h1 {
+        font-size: 42px;
+        line-height: 1.15;
+        margin-top: var(--spacing-sm);
+      }
+
+      h2 {
+        font-size: 30px;
+        line-height: 1.25;
+      }
+
+      h3 {
+        font-size: 22px;
+        line-height: 1.3;
+      }
+
+      p {
+        color: var(--color-text-secondary);
+        margin: var(--spacing-sm) 0 0;
+        max-width: 760px;
+      }
+
+      section {
+        margin-top: var(--spacing-3xl);
+      }
+
+      .section-header {
+        align-items: end;
+        border-bottom: 1px solid var(--color-border-subtle);
+        display: flex;
+        justify-content: space-between;
+        gap: var(--spacing-xl);
+        margin-bottom: var(--spacing-xl);
+        padding-bottom: var(--spacing-md);
+      }
+
+      .grid {
+        display: grid;
+        gap: var(--spacing-lg);
+      }
+
+      .grid.colors {
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      }
+
+      .grid.two {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      }
+
+      .grid.three {
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      }
+
+      .swatch,
+      .specimen,
+      .example-card,
+      .panel,
+      .token-card {
+        background: var(--color-surface);
+        border: 1px solid var(--color-border-subtle);
+        border-radius: var(--radius-lg);
+      }
+
+      .swatch {
+        overflow: hidden;
+      }
+
+      .swatch-color {
+        height: 88px;
+      }
+
+      .swatch-body,
+      .specimen,
+      .example-card,
+      .panel,
+      .token-card {
+        padding: var(--spacing-lg);
+      }
+
+      .name {
+        color: var(--color-text-primary);
+        font-weight: 600;
+      }
+
+      .value {
+        color: var(--color-text-muted);
+        font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace;
+        font-size: 13px;
+        margin-top: 2px;
+      }
+
+      .type-row {
+        align-items: baseline;
+        border-bottom: 1px solid var(--color-border-subtle);
+        display: grid;
+        gap: var(--spacing-lg);
+        grid-template-columns: 180px 1fr;
+        padding: var(--spacing-lg) 0;
+      }
+
+      .type-row:first-child {
+        padding-top: 0;
+      }
+
+      .type-row:last-child {
+        border-bottom: 0;
+        padding-bottom: 0;
+      }
+
+      .type-sample.h1 {
+        font-family: var(--font-heading);
+        font-size: 40px;
+        font-weight: 600;
+        line-height: 48px;
+      }
+
+      .type-sample.h2 {
+        font-family: var(--font-heading);
+        font-size: 32px;
+        font-weight: 600;
+        line-height: 40px;
+      }
+
+      .type-sample.h3 {
+        font-family: var(--font-heading);
+        font-size: 24px;
+        font-weight: 600;
+        line-height: 32px;
+      }
+
+      .type-sample.body-large {
+        font-size: 18px;
+        line-height: 28px;
+      }
+
+      .type-sample.body {
+        font-size: 16px;
+        line-height: 24px;
+      }
+
+      .type-sample.small {
+        font-size: 14px;
+        line-height: 20px;
+      }
+
+      .type-sample.caption {
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        line-height: 16px;
+        text-transform: uppercase;
+      }
+
+      .spacing-row {
+        align-items: center;
+        display: grid;
+        gap: var(--spacing-lg);
+        grid-template-columns: 120px 1fr 72px;
+        margin-top: var(--spacing-md);
+      }
+
+      .spacing-bar {
+        background: var(--color-purple-300);
+        border-radius: 999px;
+        height: 10px;
+      }
+
+      .surface-flat {
+        box-shadow: none;
+      }
+
+      .surface-raised {
+        background: var(--color-surface-elevated);
+        box-shadow: var(--shadow-raised);
+      }
+
+      .surface-modal {
+        background: var(--color-surface-elevated);
+        border-color: var(--color-border-normal);
+        box-shadow: var(--shadow-modal);
+      }
+
+      .button-row,
+      .control-row,
+      .chip-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--spacing-md);
+      }
+
+      button,
+      .button {
+        align-items: center;
+        border: 1px solid transparent;
+        border-radius: var(--radius-md);
+        cursor: default;
+        display: inline-flex;
+        font: 600 14px / 20px var(--font-body);
+        gap: var(--spacing-sm);
+        min-height: 40px;
+        padding: 9px 14px;
+        transition:
+          background 160ms var(--ease-standard),
+          border-color 160ms var(--ease-standard),
+          color 160ms var(--ease-standard);
+      }
+
+      .button.primary {
+        background: var(--color-purple-300);
+        border-color: var(--color-purple-200);
+        color: var(--color-text-primary);
+      }
+
+      .button.secondary {
+        background: var(--color-surface);
+        border-color: var(--color-border-normal);
+        color: var(--color-text-primary);
+      }
+
+      .button.gold {
+        background: var(--color-gold-200);
+        border-color: var(--color-gold-100);
+        color: var(--color-background-primary);
+      }
+
+      .button.danger {
+        background: rgba(184, 95, 86, 0.16);
+        border-color: var(--color-danger);
+        color: #f0c7c2;
+      }
+
+      .button.disabled {
+        background: rgba(46, 41, 54, 0.5);
+        border-color: var(--color-border-subtle);
+        color: var(--color-text-muted);
+      }
+
+      .field {
+        display: grid;
+        gap: var(--spacing-sm);
+      }
+
+      input,
+      select,
+      textarea {
+        background: #16121e;
+        border: 1px solid var(--color-border-normal);
+        border-radius: var(--radius-md);
+        color: var(--color-text-primary);
+        font: 400 15px / 22px var(--font-body);
+        padding: 10px 12px;
+      }
+
+      textarea {
+        min-height: 84px;
+        resize: none;
+      }
+
+      .checkbox,
+      .radio {
+        align-items: center;
+        color: var(--color-text-secondary);
+        display: inline-flex;
+        gap: var(--spacing-sm);
+      }
+
+      .box,
+      .dot {
+        border: 1px solid var(--color-border-normal);
+        display: inline-block;
+        height: 18px;
+        width: 18px;
+      }
+
+      .box {
+        background: var(--color-purple-300);
+        border-color: var(--color-purple-200);
+        border-radius: 4px;
+        position: relative;
+      }
+
+      .box::after {
+        border: solid var(--color-text-primary);
+        border-width: 0 2px 2px 0;
+        content: "";
+        height: 9px;
+        left: 6px;
+        position: absolute;
+        top: 2px;
+        transform: rotate(45deg);
+        width: 4px;
+      }
+
+      .dot {
+        border-radius: 50%;
+        position: relative;
+      }
+
+      .dot::after {
+        background: var(--color-gold-200);
+        border-radius: 50%;
+        content: "";
+        height: 8px;
+        left: 4px;
+        position: absolute;
+        top: 4px;
+        width: 8px;
+      }
+
+      .tabs {
+        border-bottom: 1px solid var(--color-border-subtle);
+        display: flex;
+        gap: var(--spacing-lg);
+      }
+
+      .tab {
+        color: var(--color-text-secondary);
+        font-weight: 600;
+        padding: 0 0 10px;
+      }
+
+      .tab.active {
+        border-bottom: 2px solid var(--color-gold-200);
+        color: var(--color-text-primary);
+      }
+
+      .tooltip-sample {
+        background: #211b2b;
+        border: 1px solid var(--color-border-subtle);
+        border-radius: var(--radius-sm);
+        box-shadow: var(--shadow-raised);
+        color: var(--color-text-primary);
+        display: inline-block;
+        font-size: 13px;
+        line-height: 18px;
+        padding: 8px 10px;
+      }
+
+      .sidebar-sample {
+        background: var(--color-background-secondary);
+        border: 1px solid var(--color-border-subtle);
+        border-radius: var(--radius-lg);
+        padding: var(--spacing-md);
+      }
+
+      .sidebar-item {
+        border-radius: var(--radius-md);
+        color: var(--color-text-secondary);
+        font-weight: 600;
+        padding: 10px 12px;
+      }
+
+      .sidebar-item.active {
+        background: var(--color-purple-500);
+        border-left: 3px solid var(--color-gold-200);
+        color: var(--color-text-primary);
+      }
+
+      .status {
+        border: 1px solid currentColor;
+        border-radius: 999px;
+        font-size: 13px;
+        font-weight: 600;
+        padding: 5px 10px;
+      }
+
+      .success {
+        color: var(--color-success);
+      }
+
+      .warning {
+        color: var(--color-warning);
+      }
+
+      .danger-text {
+        color: var(--color-danger);
+      }
+
+      .info {
+        color: var(--color-info);
+      }
+
+      .icon-grid {
+        display: flex;
+        gap: var(--spacing-lg);
+        align-items: end;
+      }
+
+      .icon-sample {
+        display: grid;
+        gap: var(--spacing-sm);
+        justify-items: center;
+      }
+
+      .icon-box {
+        align-items: center;
+        border: 1px solid var(--color-border-normal);
+        border-radius: var(--radius-md);
+        color: var(--color-gold-200);
+        display: flex;
+        height: 48px;
+        justify-content: center;
+        width: 48px;
+      }
+
+      .token-list {
+        display: grid;
+        gap: var(--spacing-sm);
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      }
+
+      .token-card code {
+        color: var(--color-purple-100);
+        font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace;
+        font-size: 13px;
+      }
+
+      @media (max-width: 720px) {
+        .page {
+          width: min(100vw - 28px, 1200px);
+          padding-top: 32px;
+        }
+
+        h1 {
+          font-size: 34px;
+        }
+
+        .section-header,
+        .type-row {
+          display: block;
+        }
+
+        .type-row {
+          padding: var(--spacing-lg) 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <header class="hero">
+        <div class="eyebrow">Design System Stories</div>
+        <h1>Ironsworn Character Manager</h1>
+        <p>
+          A visual catalog for the dark fantasy design language: ancient journals,
+          forged steel, royal purple cloth, antique gold, and calm readable surfaces.
+        </p>
+      </header>
+
+      <section>
+        <div class="section-header">
+          <div>
+            <div class="label">Color</div>
+            <h2>Core Palette</h2>
+          </div>
+          <p>Use purple for identity, gold for rare emphasis, and dark surfaces for depth.</p>
+        </div>
+        <div class="grid colors">
+          <article class="swatch"><div class="swatch-color" style="background: #0b090f"></div><div class="swatch-body"><div class="name">background-primary</div><div class="value">#0B090F</div></div></article>
+          <article class="swatch"><div class="swatch-color" style="background: #14111b"></div><div class="swatch-body"><div class="name">background-secondary</div><div class="value">#14111B</div></div></article>
+          <article class="swatch"><div class="swatch-color" style="background: #1c1824"></div><div class="swatch-body"><div class="name">surface</div><div class="value">#1C1824</div></div></article>
+          <article class="swatch"><div class="swatch-color" style="background: #262030"></div><div class="swatch-body"><div class="name">surface-elevated</div><div class="value">#262030</div></div></article>
+          <article class="swatch"><div class="swatch-color" style="background: #e7dcf8"></div><div class="swatch-body"><div class="name">purple-100</div><div class="value">#E7DCF8</div></div></article>
+          <article class="swatch"><div class="swatch-color" style="background: #c8b2ea"></div><div class="swatch-body"><div class="name">purple-200</div><div class="value">#C8B2EA</div></div></article>
+          <article class="swatch"><div class="swatch-color" style="background: #9e78d3"></div><div class="swatch-body"><div class="name">purple-300</div><div class="value">#9E78D3</div></div></article>
+          <article class="swatch"><div class="swatch-color" style="background: #6f45a8"></div><div class="swatch-body"><div class="name">purple-400</div><div class="value">#6F45A8</div></div></article>
+          <article class="swatch"><div class="swatch-color" style="background: #3d255f"></div><div class="swatch-body"><div class="name">purple-500</div><div class="value">#3D255F</div></div></article>
+          <article class="swatch"><div class="swatch-color" style="background: #f4e7ba"></div><div class="swatch-body"><div class="name">gold-100</div><div class="value">#F4E7BA</div></div></article>
+          <article class="swatch"><div class="swatch-color" style="background: #d7b96a"></div><div class="swatch-body"><div class="name">gold-200</div><div class="value">#D7B96A</div></div></article>
+          <article class="swatch"><div class="swatch-color" style="background: #a98235"></div><div class="swatch-body"><div class="name">gold-300</div><div class="value">#A98235</div></div></article>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-header">
+          <div>
+            <div class="label">Typography</div>
+            <h2>Readable Mythic Type</h2>
+          </div>
+        </div>
+        <div class="specimen">
+          <div class="type-row"><div><div class="name">H1</div><div class="value">40 / 48, 600</div></div><div class="type-sample h1">Swear an Iron Vow</div></div>
+          <div class="type-row"><div><div class="name">H2</div><div class="value">32 / 40, 600</div></div><div class="type-sample h2">Character Chronicle</div></div>
+          <div class="type-row"><div><div class="name">H3</div><div class="value">24 / 32, 600</div></div><div class="type-sample h3">Bonds and Progress</div></div>
+          <div class="type-row"><div><div class="name">Body Large</div><div class="value">18 / 28, 400</div></div><div class="type-sample body-large">A calm, premium reading rhythm for important supporting copy.</div></div>
+          <div class="type-row"><div><div class="name">Body</div><div class="value">16 / 24, 400</div></div><div class="type-sample body">Default interface text remains crisp, modern, and useful.</div></div>
+          <div class="type-row"><div><div class="name">Small</div><div class="value">14 / 20, 400</div></div><div class="type-sample small">Dense metadata without vanishing into the dark.</div></div>
+          <div class="type-row"><div><div class="name">Caption</div><div class="value">12 / 16, 600</div></div><div class="type-sample caption">Ancient Archive</div></div>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-header">
+          <div>
+            <div class="label">Spacing</div>
+            <h2>8px Rhythm</h2>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="spacing-row"><div class="name">xs</div><div class="spacing-bar" style="width: 4px"></div><div class="value">4px</div></div>
+          <div class="spacing-row"><div class="name">sm</div><div class="spacing-bar" style="width: 8px"></div><div class="value">8px</div></div>
+          <div class="spacing-row"><div class="name">md</div><div class="spacing-bar" style="width: 12px"></div><div class="value">12px</div></div>
+          <div class="spacing-row"><div class="name">lg</div><div class="spacing-bar" style="width: 16px"></div><div class="value">16px</div></div>
+          <div class="spacing-row"><div class="name">xl</div><div class="spacing-bar" style="width: 24px"></div><div class="value">24px</div></div>
+          <div class="spacing-row"><div class="name">2xl</div><div class="spacing-bar" style="width: 32px"></div><div class="value">32px</div></div>
+          <div class="spacing-row"><div class="name">3xl</div><div class="spacing-bar" style="width: 48px"></div><div class="value">48px</div></div>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-header">
+          <div>
+            <div class="label">Elevation</div>
+            <h2>Surface Depth</h2>
+          </div>
+        </div>
+        <div class="grid three">
+          <article class="example-card surface-flat"><h3>Flat Surface</h3><p>Default panels and content areas use borders before shadows.</p></article>
+          <article class="example-card surface-raised"><h3>Raised Surface</h3><p>Menus, selected panels, and important cards sit one layer above.</p></article>
+          <article class="example-card surface-modal"><h3>Modal Surface</h3><p>Temporary highest layer with stronger shadow and clearer border.</p></article>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-header">
+          <div>
+            <div class="label">Components</div>
+            <h2>Styling Samples</h2>
+          </div>
+        </div>
+        <div class="grid two">
+          <article class="panel">
+            <h3>Buttons</h3>
+            <p>Premium, compact, restrained. Gold stays rare.</p>
+            <div class="button-row" style="margin-top: 18px">
+              <span class="button primary">Primary</span>
+              <span class="button secondary">Secondary</span>
+              <span class="button gold">Gold Accent</span>
+              <span class="button danger">Danger</span>
+              <span class="button disabled">Disabled</span>
+            </div>
+          </article>
+
+          <article class="panel">
+            <h3>Inputs</h3>
+            <div class="grid" style="margin-top: 18px">
+              <label class="field"><span class="label">Name</span><input value="Kara Iron-Eyes" /></label>
+              <label class="field"><span class="label">Path</span><select><option>Shadow-Kin</option></select></label>
+              <label class="field"><span class="label">Notes</span><textarea>Weathered, readable, and useful before decorative.</textarea></label>
+            </div>
+          </article>
+
+          <article class="panel">
+            <h3>Selection Controls</h3>
+            <div class="control-row" style="margin-top: 18px">
+              <span class="checkbox"><span class="box"></span>Marked</span>
+              <span class="radio"><span class="dot"></span>Chosen</span>
+            </div>
+          </article>
+
+          <article class="panel">
+            <h3>Tabs</h3>
+            <div class="tabs" style="margin-top: 18px">
+              <span class="tab active">Overview</span>
+              <span class="tab">Assets</span>
+              <span class="tab">Vows</span>
+            </div>
+          </article>
+
+          <article class="panel">
+            <h3>Tooltip</h3>
+            <p style="margin-bottom: 18px">Compact, direct, and readable.</p>
+            <span class="tooltip-sample">Progress is marked in ten boxes.</span>
+          </article>
+
+          <article class="panel">
+            <h3>Sidebar</h3>
+            <div class="sidebar-sample" style="margin-top: 18px">
+              <div class="sidebar-item active">Characters</div>
+              <div class="sidebar-item">Rules</div>
+              <div class="sidebar-item">Journal</div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-header">
+          <div>
+            <div class="label">Status</div>
+            <h2>Readable State Color</h2>
+          </div>
+        </div>
+        <div class="chip-row">
+          <span class="status success">Success</span>
+          <span class="status warning">Warning</span>
+          <span class="status danger-text">Danger</span>
+          <span class="status info">Info</span>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-header">
+          <div>
+            <div class="label">Iconography</div>
+            <h2>Line Icon Scale</h2>
+          </div>
+        </div>
+        <div class="icon-grid">
+          <div class="icon-sample"><div class="icon-box"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M4 19.5V5a2 2 0 0 1 2-2h11v18H6a2 2 0 0 1-2-1.5Z" stroke="currentColor" stroke-width="2"/></svg></div><div class="value">16px</div></div>
+          <div class="icon-sample"><div class="icon-box"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 3l7 4v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V7l7-4Z" stroke="currentColor" stroke-width="2"/></svg></div><div class="value">20px</div></div>
+          <div class="icon-sample"><div class="icon-box"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M3 6h18M6 6v15h12V6M9 10h6M9 14h6" stroke="currentColor" stroke-width="2"/></svg></div><div class="value">24px</div></div>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-header">
+          <div>
+            <div class="label">Tokens</div>
+            <h2>Implementation-Ready Names</h2>
+          </div>
+        </div>
+        <div class="token-list">
+          <div class="token-card"><code>--color-background-primary</code></div>
+          <div class="token-card"><code>--color-surface-elevated</code></div>
+          <div class="token-card"><code>--color-purple-300</code></div>
+          <div class="token-card"><code>--color-gold-200</code></div>
+          <div class="token-card"><code>--color-text-primary</code></div>
+          <div class="token-card"><code>--color-border-normal</code></div>
+          <div class="token-card"><code>--font-heading</code></div>
+          <div class="token-card"><code>--font-body</code></div>
+          <div class="token-card"><code>--spacing-lg</code></div>
+          <div class="token-card"><code>--shadow-raised</code></div>
+          <div class="token-card"><code>--motion-base</code></div>
+          <div class="token-card"><code>--ease-standard</code></div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
