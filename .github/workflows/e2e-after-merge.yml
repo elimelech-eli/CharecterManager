@@ -41,15 +41,15 @@ jobs:
       - name: Run .NET unit tests
         run: dotnet test tests/CharacterManager.Core.Tests/CharacterManager.Core.Tests.csproj --configuration Release --logger trx --results-directory TestResults
 
-      - name: Package Windows app
+      - name: Package unpacked Windows app
         working-directory: apps/desktop
-        run: npm run package:win
+        run: npm run package:win:dir
 
-      - name: Upload packaged app
+      - name: Upload unpacked app
         uses: actions/upload-artifact@v4
         with:
-          name: character-manager-windows-portable
-          path: apps/desktop/release/CharacterManager-*-win-x64.exe
+          name: character-manager-windows-unpacked
+          path: apps/desktop/release/win-unpacked/**
 
       - name: Upload E2E test results
         if: always()

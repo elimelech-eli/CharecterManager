@@ -25,6 +25,7 @@ node_modules/
 .npm-cache/
 backend-publish/
 backend-runtime/
+.certificates/
 
 # User/local config
 .env
