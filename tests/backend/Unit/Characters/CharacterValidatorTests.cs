@@ -181,9 +181,9 @@ public sealed class CharacterValidatorTests
         {
             Assets =
             [
-                new SelectedAsset("companion-placeholder", [], null, null, "", null),
-                new SelectedAsset("path-placeholder", [], null, null, "", null),
-                new SelectedAsset("path-placeholder", [], null, null, "", null)
+                new SelectedAsset("cave-lion", [], null, null, "", null),
+                new SelectedAsset("alchemist", [], null, null, "", null),
+                new SelectedAsset("alchemist", [], null, null, "", null)
             ]
         };
 

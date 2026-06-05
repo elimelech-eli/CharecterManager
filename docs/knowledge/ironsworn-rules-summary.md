@@ -62,7 +62,7 @@ Asset model requirements:
 - Upgrades can be bought later with experience.
 - Some assets require narrative or mechanical prerequisites.
 
-TODO: Decide whether MVP ships with full asset catalog data from `Ironsworn-Assets.pdf`, a minimal curated subset, or metadata-only placeholders until licensing is finalized.
+MVP implementation note: the app now ships source-derived asset catalog metadata from `Ironsworn-Assets.pdf`, including real asset names, types, source references, and generic ability slots. Full asset card text is still deferred until attribution/display requirements are finalized.
 
 ## Bonds
 

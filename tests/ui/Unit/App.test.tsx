@@ -20,8 +20,8 @@ const ruleset: RulesetDto = {
   id: "ironsworn",
   name: "Ironsworn",
   rulesetVersion: "0.1.0",
-  contentVersion: "0.1.0",
-  licensingStatus: "metadataOnly",
+  contentVersion: "0.2.0",
+  licensingStatus: "summaryApproved",
   stats: [
     { id: "edge", name: "Edge", min: 1, max: 3, summary: "Quickness and ranged action.", sourceReference: null },
     { id: "heart", name: "Heart", min: 1, max: 3, summary: "Courage and fellowship.", sourceReference: null },
@@ -47,15 +47,19 @@ const ruleset: RulesetDto = {
   debilities: [],
   assets: [
     {
-      id: "path-placeholder",
-      name: "Path Placeholder",
+      id: "alchemist",
+      name: "Alchemist",
       type: "path",
-      summary: "Metadata-only placeholder for an Ironsworn path asset.",
-      abilities: [],
+      summary: "Official Ironsworn path asset metadata.",
+      abilities: [
+        { id: "ability-1", name: "First ability", summary: "First Alchemist ability from the official Ironsworn asset card. See Ironsworn Assets, p. 4." },
+        { id: "ability-2", name: "Second ability", summary: "Second Alchemist ability from the official Ironsworn asset card. See Ironsworn Assets, p. 4." },
+        { id: "ability-3", name: "Third ability", summary: "Third Alchemist ability from the official Ironsworn asset card. See Ironsworn Assets, p. 4." }
+      ],
       requiresCompanionName: false,
       permitsDuplicates: false,
-      sourceReference: null,
-      licensingStatus: "metadataOnly"
+      sourceReference: "Ironsworn Assets, p. 4",
+      licensingStatus: "summaryApproved"
     }
   ]
 };
@@ -66,7 +70,7 @@ function createDraft(): CharacterDto {
     schemaVersion: 1,
     rulesetId: "ironsworn",
     rulesetVersion: "0.1.0",
-    contentVersion: "0.1.0",
+    contentVersion: "0.2.0",
     status: "draft",
     name: "",
     concept: "",
