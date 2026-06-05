@@ -10,9 +10,10 @@
     "dev": "vite",
     "dev:electron": "concurrently -k \"vite --host 127.0.0.1\" \"wait-on http://127.0.0.1:5173 && tsc -p tsconfig.electron.json && electron .\"",
     "build": "tsc -b && vite build && tsc -p tsconfig.electron.json",
+    "clean:backend": "node scripts/clean-backend.mjs",
     "publish:backend": "dotnet publish ../../src/CharacterManager.Api/CharacterManager.Api.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -o backend-publish/win-x64",
     "copy:backend": "node scripts/copy-backend.mjs",
-    "package:win": "npm run build && npm run publish:backend && npm run copy:backend && electron-builder --win portable",
+    "package:win": "npm run build && npm run clean:backend && npm run publish:backend && npm run copy:backend && electron-builder --win portable",
     "test:dotnet": "dotnet test ../../tests/CharacterManager.Core.Tests/CharacterManager.Core.Tests.csproj"
   },
   "dependencies": {

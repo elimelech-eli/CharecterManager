@@ -1,0 +1,71 @@
+name: CI
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  dotnet-tests:
+    name: .NET unit tests
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Restore .NET projects
+        run: |
+          dotnet restore src/CharacterManager.Api/CharacterManager.Api.csproj
+          dotnet restore tests/CharacterManager.Core.Tests/CharacterManager.Core.Tests.csproj
+
+      - name: Build .NET projects
+        run: dotnet build src/CharacterManager.Api/CharacterManager.Api.csproj --configuration Release --no-restore
+
+      - name: Run .NET unit tests
+        run: dotnet test tests/CharacterManager.Core.Tests/CharacterManager.Core.Tests.csproj --configuration Release --no-restore --logger trx --results-directory TestResults
+
+      - name: Upload .NET test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dotnet-test-results
+          path: TestResults/*.trx
+
+  desktop-build:
+    name: Desktop typecheck and build
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: apps/desktop/package-lock.json
+
+      - name: Install desktop dependencies
+        working-directory: apps/desktop
+        run: npm ci
+
+      - name: Build desktop app
+        working-directory: apps/desktop
+        run: npm run build
