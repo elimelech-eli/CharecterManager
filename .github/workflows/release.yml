@@ -41,19 +41,31 @@ jobs:
       - name: Run .NET unit tests
         run: dotnet test tests/CharacterManager.Core.Tests/CharacterManager.Core.Tests.csproj --configuration Release
 
-      - name: Package Windows app
+      - name: Validate Windows signing secrets
+        env:
+          CSC_LINK: ${{ secrets.WINDOWS_CERTIFICATE_BASE64 }}
+          CSC_KEY_PASSWORD: ${{ secrets.WINDOWS_CERTIFICATE_PASSWORD }}
+        run: |
+          if (-not $env:CSC_LINK -or -not $env:CSC_KEY_PASSWORD) {
+            throw "Windows release builds require WINDOWS_CERTIFICATE_BASE64 and WINDOWS_CERTIFICATE_PASSWORD secrets. Refusing to create an unsigned user-facing .exe."
+          }
+
+      - name: Package signed Windows installer
         working-directory: apps/desktop
-        run: npm run package:win
+        env:
+          CSC_LINK: ${{ secrets.WINDOWS_CERTIFICATE_BASE64 }}
+          CSC_KEY_PASSWORD: ${{ secrets.WINDOWS_CERTIFICATE_PASSWORD }}
+        run: npm run package:win:release
 
       - name: Upload release artifact
         uses: actions/upload-artifact@v4
         with:
-          name: character-manager-windows-portable
-          path: apps/desktop/release/CharacterManager-*-win-x64.exe
+          name: character-manager-windows-installer
+          path: apps/desktop/release/CharacterManager-*-Setup-win-x64.exe
 
       - name: Create GitHub release
         if: startsWith(github.ref, 'refs/tags/')
         uses: softprops/action-gh-release@v2
         with:
-          files: apps/desktop/release/CharacterManager-*-win-x64.exe
+          files: apps/desktop/release/CharacterManager-*-Setup-win-x64.exe
 

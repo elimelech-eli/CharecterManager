@@ -34,7 +34,7 @@ dotnet run --project ../../src/CharacterManager.Api/CharacterManager.Api.csproj
 
 The Electron development process can also launch the backend automatically with `npm run dev:electron` once dependencies are installed.
 
-## Windows Portable Build
+## Windows Local Package
 
 ```powershell
 cd apps/desktop
@@ -42,7 +42,9 @@ npm install
 npm run package:win
 ```
 
-This publishes the .NET backend as a self-contained Windows executable, copies it into Electron resources, builds the React UI, and creates a portable Windows `.exe`.
+This creates an unpacked local Windows build under `apps/desktop/release/win-unpacked`.
+
+User-facing Windows installers are intentionally separate from local builds because unsigned portable Electron executables are prone to antivirus and SmartScreen false positives. See `docs/planning/windows-packaging-and-signing.md`.
 
 ## Repository Note
 

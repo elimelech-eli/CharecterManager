@@ -1,0 +1,22 @@
+appId: com.characterManager.desktop
+productName: CharacterManager
+directories:
+  output: release
+files:
+  - dist/**/*
+  - dist-electron/**/*
+  - package.json
+extraResources:
+  - from: backend-runtime
+    to: backend
+win:
+  signAndEditExecutable: true
+  target:
+    - target: nsis
+      arch:
+        - x64
+  artifactName: ${productName}-${version}-Setup-${os}-${arch}.${ext}
+nsis:
+  oneClick: false
+  perMachine: false
+  allowToChangeInstallationDirectory: true

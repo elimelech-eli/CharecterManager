@@ -1,6 +1,7 @@
 import { app, BrowserWindow, ipcMain } from "electron";
 import path from "node:path";
 import { ChildProcess, spawn } from "node:child_process";
+import { existsSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -17,7 +18,8 @@ function backendExecutablePath(): string {
     return "dotnet";
   }
 
-  return path.join(process.resourcesPath, "backend", "CharacterManager.Api.exe");
+  const bundledExe = path.join(process.resourcesPath, "backend", "CharacterManager.Api.exe");
+  return existsSync(bundledExe) ? bundledExe : "dotnet";
 }
 
 function backendArguments(): string[] {
@@ -27,6 +29,11 @@ function backendArguments(): string[] {
       "--project",
       path.resolve(__dirname, "../../../src/CharacterManager.Api/CharacterManager.Api.csproj")
     ];
+  }
+
+  const bundledDll = path.join(process.resourcesPath, "backend", "CharacterManager.Api.dll");
+  if (existsSync(bundledDll) && !existsSync(path.join(process.resourcesPath, "backend", "CharacterManager.Api.exe"))) {
+    return [bundledDll];
   }
 
   return [];
