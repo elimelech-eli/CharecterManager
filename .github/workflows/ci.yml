@@ -69,3 +69,72 @@ jobs:
       - name: Build desktop app
         working-directory: apps/desktop
         run: npm run build
+
+  ui-component-tests:
+    name: UI component tests
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: apps/desktop/package-lock.json
+
+      - name: Install desktop dependencies
+        working-directory: apps/desktop
+        run: npm ci
+
+      - name: Run UI component tests
+        working-directory: apps/desktop
+        run: npm run test:ui:unit
+
+      - name: Upload UI component test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ui-component-test-results
+          path: tests/ui/Reports/Unit/**
+
+  ui-e2e-tests:
+    name: UI E2E tests
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: apps/desktop/package-lock.json
+
+      - name: Install desktop dependencies
+        working-directory: apps/desktop
+        run: npm ci
+
+      - name: Install Playwright browsers
+        working-directory: apps/desktop
+        run: npx playwright install chromium
+
+      - name: Run UI E2E tests
+        working-directory: apps/desktop
+        run: npm run test:ui:e2e
+
+      - name: Upload UI E2E test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ui-e2e-test-results
+          path: tests/ui/Reports/E2E/**
