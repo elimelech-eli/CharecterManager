@@ -1,0 +1,375 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="cacc085b-66de-4f76-837b-b4ff817e4ba7" name="Eli@DESKTOP-OMOJ29N 2026-06-05 18:45:10" runUser="DESKTOP-OMOJ29N\Eli" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-06-05T18:45:10.5917644+03:00" queuing="2026-06-05T18:45:10.5917647+03:00" start="2026-06-05T18:45:06.6371263+03:00" finish="2026-06-05T18:45:10.5959876+03:00" />
+  <TestSettings name="default" id="f4a0682f-d38c-4eb6-a7a9-bd9194096547">
+    <Deployment runDeploymentRoot="Eli_DESKTOP-OMOJ29N_2026-06-05_18_45_10" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="100efdfc-f2d7-4033-990e-14b8e072066c" testId="91fb005e-e54f-11c7-f821-fcfe1107e10f" testName="CharacterManager.Backend.E2E.Tests.BackendApiLifecycleTests.FinalizeIncompleteDraftReturnsStructuredValidationErrors" computerName="DESKTOP-OMOJ29N" duration="00:00:00.3067215" startTime="2026-06-05T18:45:09.9745906+03:00" endTime="2026-06-05T18:45:09.9746062+03:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="100efdfc-f2d7-4033-990e-14b8e072066c" />
+    <UnitTestResult executionId="c5885ec5-1d98-44cd-8ef9-adf1db86c0da" testId="110ddca3-6673-9a65-dc26-66b668420721" testName="CharacterManager.Backend.E2E.Tests.BackendApiLifecycleTests.HealthAndCompatibilityRollEndpointWork" computerName="DESKTOP-OMOJ29N" duration="00:00:00.0286025" startTime="2026-06-05T18:45:10.1448448+03:00" endTime="2026-06-05T18:45:10.1448451+03:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c5885ec5-1d98-44cd-8ef9-adf1db86c0da" />
+    <UnitTestResult executionId="1c65ef62-f3fa-43cd-9316-ff4e7f63688d" testId="8e6f0db5-cea3-efe0-243a-0bd6889e0125" testName="CharacterManager.Backend.E2E.Tests.BackendApiLifecycleTests.CreateDraftPersistsJsonAndSurvivesApiFactoryRestart" computerName="DESKTOP-OMOJ29N" duration="00:00:00.0540109" startTime="2026-06-05T18:45:10.0835125+03:00" endTime="2026-06-05T18:45:10.0835128+03:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="1c65ef62-f3fa-43cd-9316-ff4e7f63688d" />
+    <UnitTestResult executionId="ba0b4d7b-f85c-4a58-9a3d-42b4f5941a7f" testId="a1dc9a98-ef03-fef6-87ad-b7ed51cdabf7" testName="CharacterManager.Backend.E2E.Tests.BackendApiLifecycleTests.RulesetEndpointsReturnMvpIronswornMetadata" computerName="DESKTOP-OMOJ29N" duration="00:00:00.0318540" startTime="2026-06-05T18:45:10.1156968+03:00" endTime="2026-06-05T18:45:10.1156969+03:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ba0b4d7b-f85c-4a58-9a3d-42b4f5941a7f" />
+    <UnitTestResult executionId="d17465e2-b3b5-4357-ab6c-e0b029747845" testId="a7b42b05-473e-458a-3b3c-7fbd887ccc6c" testName="CharacterManager.Backend.E2E.Tests.BackendApiLifecycleTests.CompleteCharacterCanBeUpdatedValidatedFinalizedListedAndDeleted" computerName="DESKTOP-OMOJ29N" duration="00:00:00.0387566" startTime="2026-06-05T18:45:10.2681125+03:00" endTime="2026-06-05T18:45:10.2681130+03:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="d17465e2-b3b5-4357-ab6c-e0b029747845" />
+    <UnitTestResult executionId="a722366b-7b96-4ba6-ae5e-7364ca8f04bf" testId="7cf67af1-55e9-180b-5567-79fac37e4f9d" testName="CharacterManager.Backend.E2E.Tests.BackendApiLifecycleTests.NotFoundAndBadRequestEndpointsReturnErrorEnvelopes" computerName="DESKTOP-OMOJ29N" duration="00:00:00.0537600" startTime="2026-06-05T18:45:10.0291349+03:00" endTime="2026-06-05T18:45:10.0291351+03:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a722366b-7b96-4ba6-ae5e-7364ca8f04bf" />
+    <UnitTestResult executionId="95124853-5064-4f71-aacf-7e3098e2790e" testId="a875132b-0b8e-5250-43ca-2193ed10a43c" testName="CharacterManager.Backend.E2E.Tests.BackendApiLifecycleTests.InvalidPersistedJsonIsListedSafely" computerName="DESKTOP-OMOJ29N" duration="00:00:00.0409949" startTime="2026-06-05T18:45:10.1861965+03:00" endTime="2026-06-05T18:45:10.1861967+03:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="95124853-5064-4f71-aacf-7e3098e2790e" />
+    <UnitTestResult executionId="d9a06055-7072-416f-b755-705c66f04a92" testId="a2312fa7-ead8-0a4f-929a-4e30f1538cd1" testName="CharacterManager.Backend.E2E.Tests.BackendApiLifecycleTests.BlockedMeterIncreaseReturnsValidationResponse" computerName="DESKTOP-OMOJ29N" duration="00:00:00.0423218" startTime="2026-06-05T18:45:10.2288904+03:00" endTime="2026-06-05T18:45:10.2288907+03:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="d9a06055-7072-416f-b755-705c66f04a92" />
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="CharacterManager.Backend.E2E.Tests.BackendApiLifecycleTests.RulesetEndpointsReturnMvpIronswornMetadata" storage="c:\users\eli\onedrive\documents\charactermanager\.codex-guy-backend-core\tests\backend\e2e\bin\debug\net8.0\charactermanager.backend.e2e.tests.dll" id="a1dc9a98-ef03-fef6-87ad-b7ed51cdabf7">
+      <Execution id="ba0b4d7b-f85c-4a58-9a3d-42b4f5941a7f" />
+      <TestMethod codeBase="C:\Users\Eli\OneDrive\Documents\CharacterManager\.codex-guy-backend-core\tests\backend\E2E\bin\Debug\net8.0\CharacterManager.Backend.E2E.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="CharacterManager.Backend.E2E.Tests.BackendApiLifecycleTests" name="RulesetEndpointsReturnMvpIronswornMetadata" />
+    </UnitTest>
+    <UnitTest name="CharacterManager.Backend.E2E.Tests.BackendApiLifecycleTests.CompleteCharacterCanBeUpdatedValidatedFinalizedListedAndDeleted" storage="c:\users\eli\onedrive\documents\charactermanager\.codex-guy-backend-core\tests\backend\e2e\bin\debug\net8.0\charactermanager.backend.e2e.tests.dll" id="a7b42b05-473e-458a-3b3c-7fbd887ccc6c">
+      <Execution id="d17465e2-b3b5-4357-ab6c-e0b029747845" />
+      <TestMethod codeBase="C:\Users\Eli\OneDrive\Documents\CharacterManager\.codex-guy-backend-core\tests\backend\E2E\bin\Debug\net8.0\CharacterManager.Backend.E2E.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="CharacterManager.Backend.E2E.Tests.BackendApiLifecycleTests" name="CompleteCharacterCanBeUpdatedValidatedFinalizedListedAndDeleted" />
+    </UnitTest>
+    <UnitTest name="CharacterManager.Backend.E2E.Tests.BackendApiLifecycleTests.BlockedMeterIncreaseReturnsValidationResponse" storage="c:\users\eli\onedrive\documents\charactermanager\.codex-guy-backend-core\tests\backend\e2e\bin\debug\net8.0\charactermanager.backend.e2e.tests.dll" id="a2312fa7-ead8-0a4f-929a-4e30f1538cd1">
+      <Execution id="d9a06055-7072-416f-b755-705c66f04a92" />
+      <TestMethod codeBase="C:\Users\Eli\OneDrive\Documents\CharacterManager\.codex-guy-backend-core\tests\backend\E2E\bin\Debug\net8.0\CharacterManager.Backend.E2E.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="CharacterManager.Backend.E2E.Tests.BackendApiLifecycleTests" name="BlockedMeterIncreaseReturnsValidationResponse" />
+    </UnitTest>
+    <UnitTest name="CharacterManager.Backend.E2E.Tests.BackendApiLifecycleTests.InvalidPersistedJsonIsListedSafely" storage="c:\users\eli\onedrive\documents\charactermanager\.codex-guy-backend-core\tests\backend\e2e\bin\debug\net8.0\charactermanager.backend.e2e.tests.dll" id="a875132b-0b8e-5250-43ca-2193ed10a43c">
+      <Execution id="95124853-5064-4f71-aacf-7e3098e2790e" />
+      <TestMethod codeBase="C:\Users\Eli\OneDrive\Documents\CharacterManager\.codex-guy-backend-core\tests\backend\E2E\bin\Debug\net8.0\CharacterManager.Backend.E2E.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="CharacterManager.Backend.E2E.Tests.BackendApiLifecycleTests" name="InvalidPersistedJsonIsListedSafely" />
+    </UnitTest>
+    <UnitTest name="CharacterManager.Backend.E2E.Tests.BackendApiLifecycleTests.HealthAndCompatibilityRollEndpointWork" storage="c:\users\eli\onedrive\documents\charactermanager\.codex-guy-backend-core\tests\backend\e2e\bin\debug\net8.0\charactermanager.backend.e2e.tests.dll" id="110ddca3-6673-9a65-dc26-66b668420721">
+      <Execution id="c5885ec5-1d98-44cd-8ef9-adf1db86c0da" />
+      <TestMethod codeBase="C:\Users\Eli\OneDrive\Documents\CharacterManager\.codex-guy-backend-core\tests\backend\E2E\bin\Debug\net8.0\CharacterManager.Backend.E2E.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="CharacterManager.Backend.E2E.Tests.BackendApiLifecycleTests" name="HealthAndCompatibilityRollEndpointWork" />
+    </UnitTest>
+    <UnitTest name="CharacterManager.Backend.E2E.Tests.BackendApiLifecycleTests.FinalizeIncompleteDraftReturnsStructuredValidationErrors" storage="c:\users\eli\onedrive\documents\charactermanager\.codex-guy-backend-core\tests\backend\e2e\bin\debug\net8.0\charactermanager.backend.e2e.tests.dll" id="91fb005e-e54f-11c7-f821-fcfe1107e10f">
+      <Execution id="100efdfc-f2d7-4033-990e-14b8e072066c" />
+      <TestMethod codeBase="C:\Users\Eli\OneDrive\Documents\CharacterManager\.codex-guy-backend-core\tests\backend\E2E\bin\Debug\net8.0\CharacterManager.Backend.E2E.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="CharacterManager.Backend.E2E.Tests.BackendApiLifecycleTests" name="FinalizeIncompleteDraftReturnsStructuredValidationErrors" />
+    </UnitTest>
+    <UnitTest name="CharacterManager.Backend.E2E.Tests.BackendApiLifecycleTests.CreateDraftPersistsJsonAndSurvivesApiFactoryRestart" storage="c:\users\eli\onedrive\documents\charactermanager\.codex-guy-backend-core\tests\backend\e2e\bin\debug\net8.0\charactermanager.backend.e2e.tests.dll" id="8e6f0db5-cea3-efe0-243a-0bd6889e0125">
+      <Execution id="1c65ef62-f3fa-43cd-9316-ff4e7f63688d" />
+      <TestMethod codeBase="C:\Users\Eli\OneDrive\Documents\CharacterManager\.codex-guy-backend-core\tests\backend\E2E\bin\Debug\net8.0\CharacterManager.Backend.E2E.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="CharacterManager.Backend.E2E.Tests.BackendApiLifecycleTests" name="CreateDraftPersistsJsonAndSurvivesApiFactoryRestart" />
+    </UnitTest>
+    <UnitTest name="CharacterManager.Backend.E2E.Tests.BackendApiLifecycleTests.NotFoundAndBadRequestEndpointsReturnErrorEnvelopes" storage="c:\users\eli\onedrive\documents\charactermanager\.codex-guy-backend-core\tests\backend\e2e\bin\debug\net8.0\charactermanager.backend.e2e.tests.dll" id="7cf67af1-55e9-180b-5567-79fac37e4f9d">
+      <Execution id="a722366b-7b96-4ba6-ae5e-7364ca8f04bf" />
+      <TestMethod codeBase="C:\Users\Eli\OneDrive\Documents\CharacterManager\.codex-guy-backend-core\tests\backend\E2E\bin\Debug\net8.0\CharacterManager.Backend.E2E.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="CharacterManager.Backend.E2E.Tests.BackendApiLifecycleTests" name="NotFoundAndBadRequestEndpointsReturnErrorEnvelopes" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="91fb005e-e54f-11c7-f821-fcfe1107e10f" executionId="100efdfc-f2d7-4033-990e-14b8e072066c" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="110ddca3-6673-9a65-dc26-66b668420721" executionId="c5885ec5-1d98-44cd-8ef9-adf1db86c0da" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="8e6f0db5-cea3-efe0-243a-0bd6889e0125" executionId="1c65ef62-f3fa-43cd-9316-ff4e7f63688d" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a1dc9a98-ef03-fef6-87ad-b7ed51cdabf7" executionId="ba0b4d7b-f85c-4a58-9a3d-42b4f5941a7f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a7b42b05-473e-458a-3b3c-7fbd887ccc6c" executionId="d17465e2-b3b5-4357-ab6c-e0b029747845" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="7cf67af1-55e9-180b-5567-79fac37e4f9d" executionId="a722366b-7b96-4ba6-ae5e-7364ca8f04bf" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a875132b-0b8e-5250-43ca-2193ed10a43c" executionId="95124853-5064-4f71-aacf-7e3098e2790e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a2312fa7-ead8-0a4f-929a-4e30f1538cd1" executionId="d9a06055-7072-416f-b755-705c66f04a92" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Completed">
+    <Counters total="8" executed="8" passed="8" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v2.8.2+699d445a1a (64-bit .NET 8.0.27)&#xD;
+[xUnit.net 00:00:00.48]   Discovering: CharacterManager.Backend.E2E.Tests&#xD;
+[xUnit.net 00:00:00.50]   Discovered:  CharacterManager.Backend.E2E.Tests&#xD;
+[xUnit.net 00:00:00.50]   Starting:    CharacterManager.Backend.E2E.Tests&#xD;
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]&#xD;
+      Request starting HTTP/1.1 POST http://localhost/api/v1/characters/drafts - application/json;+charset=utf-8 25&#xD;
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]&#xD;
+      Executing endpoint 'HTTP: POST /api/v1/characters/drafts'&#xD;
+info: Microsoft.AspNetCore.Http.Result.CreatedResult[1]&#xD;
+      Setting HTTP status code 201.&#xD;
+info: Microsoft.AspNetCore.Http.Result.CreatedResult[3]&#xD;
+      Writing value of type 'CharacterDto' as Json.&#xD;
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]&#xD;
+      Executed endpoint 'HTTP: POST /api/v1/characters/drafts'&#xD;
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]&#xD;
+      Request finished HTTP/1.1 POST http://localhost/api/v1/characters/drafts - 201 - application/json;+charset=utf-8 110.0945ms&#xD;
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]&#xD;
+      Request starting HTTP/1.1 POST http://localhost/api/v1/characters/6a42472f-b307-4c47-b87f-22701e3e4f52/finalize - application/json;+charset=utf-8 22&#xD;
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]&#xD;
+      Executing endpoint 'HTTP: POST /api/v1/characters/{characterId:guid}/finalize'&#xD;
+info: Microsoft.AspNetCore.Http.Result.BadRequestObjectResult[1]&#xD;
+      Setting HTTP status code 400.&#xD;
+info: Microsoft.AspNetCore.Http.Result.BadRequestObjectResult[3]&#xD;
+      Writing value of type 'ValidationResultDto' as Json.&#xD;
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]&#xD;
+      Executed endpoint 'HTTP: POST /api/v1/characters/{characterId:guid}/finalize'&#xD;
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]&#xD;
+      Request finished HTTP/1.1 POST http://localhost/api/v1/characters/6a42472f-b307-4c47-b87f-22701e3e4f52/finalize - 400 - application/json;+charset=utf-8 22.2966ms&#xD;
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]&#xD;
+      Request starting HTTP/1.1 POST http://localhost/api/v1/characters/drafts - application/json;+charset=utf-8 25&#xD;
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]&#xD;
+      Executing endpoint 'HTTP: POST /api/v1/characters/drafts'&#xD;
+info: Microsoft.AspNetCore.Http.Result.CreatedResult[1]&#xD;
+      Setting HTTP status code 201.&#xD;
+info: Microsoft.AspNetCore.Http.Result.CreatedResult[3]&#xD;
+      Writing value of type 'CharacterDto' as Json.&#xD;
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]&#xD;
+      Executed endpoint 'HTTP: POST /api/v1/characters/drafts'&#xD;
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]&#xD;
+      Request finished HTTP/1.1 POST http://localhost/api/v1/characters/drafts - 201 - application/json;+charset=utf-8 18.2323ms&#xD;
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]&#xD;
+      Request starting HTTP/1.1 GET http://localhost/api/v1/rulesets/missing - - -&#xD;
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]&#xD;
+      Executing endpoint 'HTTP: GET /api/v1/rulesets/{rulesetId}'&#xD;
+info: Microsoft.AspNetCore.Http.Result.NotFoundObjectResult[1]&#xD;
+      Setting HTTP status code 404.&#xD;
+info: Microsoft.AspNetCore.Http.Result.NotFoundObjectResult[3]&#xD;
+      Writing value of type 'ErrorEnvelopeDto' as Json.&#xD;
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]&#xD;
+      Executed endpoint 'HTTP: GET /api/v1/rulesets/{rulesetId}'&#xD;
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]&#xD;
+      Request finished HTTP/1.1 GET http://localhost/api/v1/rulesets/missing - 404 - application/json;+charset=utf-8 3.5762ms&#xD;
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]&#xD;
+      Request starting HTTP/1.1 GET http://localhost/api/v1/characters/010e9df8-9cc9-488c-ac33-88784ce88927 - - -&#xD;
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]&#xD;
+      Executing endpoint 'HTTP: GET /api/v1/characters/{characterId:guid}'&#xD;
+info: Microsoft.AspNetCore.Http.Result.NotFoundObjectResult[1]&#xD;
+      Setting HTTP status code 404.&#xD;
+info: Microsoft.AspNetCore.Http.Result.NotFoundObjectResult[3]&#xD;
+      Writing value of type 'ErrorEnvelopeDto' as Json.&#xD;
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]&#xD;
+      Executed endpoint 'HTTP: GET /api/v1/characters/{characterId:guid}'&#xD;
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]&#xD;
+      Request finished HTTP/1.1 GET http://localhost/api/v1/characters/010e9df8-9cc9-488c-ac33-88784ce88927 - 404 - application/json;+charset=utf-8 1.2230ms&#xD;
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]&#xD;
+      Request starting HTTP/1.1 PUT http://localhost/api/v1/characters/029653ef-1152-4a5e-b098-7863714a2a2b - application/json;+charset=utf-8 1774&#xD;
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]&#xD;
+      Executing endpoint 'HTTP: PUT /api/v1/characters/{characterId:guid}'&#xD;
+info: Microsoft.AspNetCore.Http.Result.BadRequestObjectResult[1]&#xD;
+      Setting HTTP status code 400.&#xD;
+info: Microsoft.AspNetCore.Http.Result.BadRequestObjectResult[3]&#xD;
+      Writing value of type 'ErrorEnvelopeDto' as Json.&#xD;
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]&#xD;
+      Executed endpoint 'HTTP: PUT /api/v1/characters/{characterId:guid}'&#xD;
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]&#xD;
+      Request finished HTTP/1.1 PUT http://localhost/api/v1/characters/029653ef-1152-4a5e-b098-7863714a2a2b - 400 - application/json;+charset=utf-8 3.4830ms&#xD;
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]&#xD;
+      Request starting HTTP/1.1 DELETE http://localhost/api/v1/characters/4b79f216-192c-42ae-b2e3-1219c04e56b6 - - -&#xD;
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]&#xD;
+      Executing endpoint 'HTTP: DELETE /api/v1/characters/{characterId:guid}'&#xD;
+info: Microsoft.AspNetCore.Http.Result.NotFoundObjectResult[1]&#xD;
+      Setting HTTP status code 404.&#xD;
+info: Microsoft.AspNetCore.Http.Result.NotFoundObjectResult[3]&#xD;
+      Writing value of type 'ErrorEnvelopeDto' as Json.&#xD;
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]&#xD;
+      Executed endpoint 'HTTP: DELETE /api/v1/characters/{characterId:guid}'&#xD;
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]&#xD;
+      Request finished HTTP/1.1 DELETE http://localhost/api/v1/characters/4b79f216-192c-42ae-b2e3-1219c04e56b6 - 404 - application/json;+charset=utf-8 1.1610ms&#xD;
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]&#xD;
+      Request starting HTTP/1.1 POST http://localhost/api/v1/characters/drafts - application/json;+charset=utf-8 25&#xD;
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]&#xD;
+      Executing endpoint 'HTTP: POST /api/v1/characters/drafts'&#xD;
+info: Microsoft.AspNetCore.Http.Result.CreatedResult[1]&#xD;
+      Setting HTTP status code 201.&#xD;
+info: Microsoft.AspNetCore.Http.Result.CreatedResult[3]&#xD;
+      Writing value of type 'CharacterDto' as Json.&#xD;
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]&#xD;
+      Executed endpoint 'HTTP: POST /api/v1/characters/drafts'&#xD;
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]&#xD;
+      Request finished HTTP/1.1 POST http://localhost/api/v1/characters/drafts - 201 - application/json;+charset=utf-8 17.4635ms&#xD;
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]&#xD;
+      Request starting HTTP/1.1 GET http://localhost/api/v1/characters/fcaa3026-8633-4a94-a917-55dc1d2995c1 - - -&#xD;
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]&#xD;
+      Executing endpoint 'HTTP: GET /api/v1/characters/{characterId:guid}'&#xD;
+info: Microsoft.AspNetCore.Http.Result.OkObjectResult[1]&#xD;
+      Setting HTTP status code 200.&#xD;
+info: Microsoft.AspNetCore.Http.Result.OkObjectResult[3]&#xD;
+      Writing value of type 'CharacterDto' as Json.&#xD;
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]&#xD;
+      Executed endpoint 'HTTP: GET /api/v1/characters/{characterId:guid}'&#xD;
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]&#xD;
+      Request finished HTTP/1.1 GET http://localhost/api/v1/characters/fcaa3026-8633-4a94-a917-55dc1d2995c1 - 200 - application/json;+charset=utf-8 15.0859ms&#xD;
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]&#xD;
+      Request starting HTTP/1.1 GET http://localhost/api/v1/characters - - -&#xD;
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]&#xD;
+      Executing endpoint 'HTTP: GET /api/v1/characters'&#xD;
+info: Microsoft.AspNetCore.Http.Result.OkObjectResult[1]&#xD;
+      Setting HTTP status code 200.&#xD;
+info: Microsoft.AspNetCore.Http.Result.OkObjectResult[3]&#xD;
+      Writing value of type 'CharacterListDto' as Json.&#xD;
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]&#xD;
+      Executed endpoint 'HTTP: GET /api/v1/characters'&#xD;
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]&#xD;
+      Request finished HTTP/1.1 GET http://localhost/api/v1/characters - 200 - application/json;+charset=utf-8 7.8900ms&#xD;
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]&#xD;
+      Request starting HTTP/1.1 GET http://localhost/api/v1/rulesets - - -&#xD;
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]&#xD;
+      Executing endpoint 'HTTP: GET /api/v1/rulesets'&#xD;
+info: Microsoft.AspNetCore.Http.Result.OkObjectResult[1]&#xD;
+      Setting HTTP status code 200.&#xD;
+info: Microsoft.AspNetCore.Http.Result.OkObjectResult[3]&#xD;
+      Writing value of type 'RulesetListDto' as Json.&#xD;
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]&#xD;
+      Executed endpoint 'HTTP: GET /api/v1/rulesets'&#xD;
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]&#xD;
+      Request finished HTTP/1.1 GET http://localhost/api/v1/rulesets - 200 - application/json;+charset=utf-8 16.6654ms&#xD;
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]&#xD;
+      Request starting HTTP/1.1 GET http://localhost/api/v1/rulesets/ironsworn - - -&#xD;
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]&#xD;
+      Executing endpoint 'HTTP: GET /api/v1/rulesets/{rulesetId}'&#xD;
+info: Microsoft.AspNetCore.Http.Result.OkObjectResult[1]&#xD;
+      Setting HTTP status code 200.&#xD;
+info: Microsoft.AspNetCore.Http.Result.OkObjectResult[3]&#xD;
+      Writing value of type 'RulesetDto' as Json.&#xD;
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]&#xD;
+      Executed endpoint 'HTTP: GET /api/v1/rulesets/{rulesetId}'&#xD;
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]&#xD;
+      Request finished HTTP/1.1 GET http://localhost/api/v1/rulesets/ironsworn - 200 - application/json;+charset=utf-8 5.8208ms&#xD;
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]&#xD;
+      Request starting HTTP/1.1 GET http://localhost/health - - -&#xD;
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]&#xD;
+      Executing endpoint 'HTTP: GET /health'&#xD;
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]&#xD;
+      Executed endpoint 'HTTP: GET /health'&#xD;
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]&#xD;
+      Request finished HTTP/1.1 GET http://localhost/health - 200 - application/json;+charset=utf-8 16.6314ms&#xD;
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]&#xD;
+      Request starting HTTP/1.1 POST http://localhost/rolls/action - application/json;+charset=utf-8 14&#xD;
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]&#xD;
+      Executing endpoint 'HTTP: POST /rolls/action'&#xD;
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]&#xD;
+      Executed endpoint 'HTTP: POST /rolls/action'&#xD;
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]&#xD;
+      Request finished HTTP/1.1 POST http://localhost/rolls/action - 200 - application/json;+charset=utf-8 3.3250ms&#xD;
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]&#xD;
+      Request starting HTTP/1.1 GET http://localhost/api/v1/characters - - -&#xD;
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]&#xD;
+      Executing endpoint 'HTTP: GET /api/v1/characters'&#xD;
+info: Microsoft.AspNetCore.Http.Result.OkObjectResult[1]&#xD;
+      Setting HTTP status code 200.&#xD;
+info: Microsoft.AspNetCore.Http.Result.OkObjectResult[3]&#xD;
+      Writing value of type 'CharacterListDto' as Json.&#xD;
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]&#xD;
+      Executed endpoint 'HTTP: GET /api/v1/characters'&#xD;
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]&#xD;
+      Request finished HTTP/1.1 GET http://localhost/api/v1/characters - 200 - application/json;+charset=utf-8 33.2800ms&#xD;
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]&#xD;
+      Request starting HTTP/1.1 POST http://localhost/api/v1/characters/drafts - application/json;+charset=utf-8 25&#xD;
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]&#xD;
+      Executing endpoint 'HTTP: POST /api/v1/characters/drafts'&#xD;
+info: Microsoft.AspNetCore.Http.Result.CreatedResult[1]&#xD;
+      Setting HTTP status code 201.&#xD;
+info: Microsoft.AspNetCore.Http.Result.CreatedResult[3]&#xD;
+      Writing value of type 'CharacterDto' as Json.&#xD;
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]&#xD;
+      Executed endpoint 'HTTP: POST /api/v1/characters/drafts'&#xD;
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]&#xD;
+      Request finished HTTP/1.1 POST http://localhost/api/v1/characters/drafts - 201 - application/json;+charset=utf-8 20.3159ms&#xD;
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]&#xD;
+      Request starting HTTP/1.1 PUT http://localhost/api/v1/characters/72f90e06-8f93-46d1-bf29-0a45aaa05ca9 - application/json;+charset=utf-8 1909&#xD;
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]&#xD;
+      Executing endpoint 'HTTP: PUT /api/v1/characters/{characterId:guid}'&#xD;
+info: Microsoft.AspNetCore.Http.Result.OkObjectResult[1]&#xD;
+      Setting HTTP status code 200.&#xD;
+info: Microsoft.AspNetCore.Http.Result.OkObjectResult[3]&#xD;
+      Writing value of type 'CharacterDto' as Json.&#xD;
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]&#xD;
+      Executed endpoint 'HTTP: PUT /api/v1/characters/{characterId:guid}'&#xD;
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]&#xD;
+      Request finished HTTP/1.1 PUT http://localhost/api/v1/characters/72f90e06-8f93-46d1-bf29-0a45aaa05ca9 - 200 - application/json;+charset=utf-8 11.6869ms&#xD;
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]&#xD;
+      Request starting HTTP/1.1 PUT http://localhost/api/v1/characters/72f90e06-8f93-46d1-bf29-0a45aaa05ca9 - application/json;+charset=utf-8 1909&#xD;
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]&#xD;
+      Executing endpoint 'HTTP: PUT /api/v1/characters/{characterId:guid}'&#xD;
+info: Microsoft.AspNetCore.Http.Result.BadRequestObjectResult[1]&#xD;
+      Setting HTTP status code 400.&#xD;
+info: Microsoft.AspNetCore.Http.Result.BadRequestObjectResult[3]&#xD;
+      Writing value of type 'ValidationResultDto' as Json.&#xD;
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]&#xD;
+      Executed endpoint 'HTTP: PUT /api/v1/characters/{characterId:guid}'&#xD;
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]&#xD;
+      Request finished HTTP/1.1 PUT http://localhost/api/v1/characters/72f90e06-8f93-46d1-bf29-0a45aaa05ca9 - 400 - application/json;+charset=utf-8 2.0962ms&#xD;
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]&#xD;
+      Request starting HTTP/1.1 POST http://localhost/api/v1/characters/drafts - application/json;+charset=utf-8 25&#xD;
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]&#xD;
+      Executing endpoint 'HTTP: POST /api/v1/characters/drafts'&#xD;
+info: Microsoft.AspNetCore.Http.Result.CreatedResult[1]&#xD;
+      Setting HTTP status code 201.&#xD;
+info: Microsoft.AspNetCore.Http.Result.CreatedResult[3]&#xD;
+      Writing value of type 'CharacterDto' as Json.&#xD;
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]&#xD;
+      Executed endpoint 'HTTP: POST /api/v1/characters/drafts'&#xD;
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]&#xD;
+      Request finished HTTP/1.1 POST http://localhost/api/v1/characters/drafts - 201 - application/json;+charset=utf-8 17.0298ms&#xD;
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]&#xD;
+      Request starting HTTP/1.1 PUT http://localhost/api/v1/characters/0874ac3e-2d78-4f4b-8e54-b5eff41add4a - application/json;+charset=utf-8 1775&#xD;
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]&#xD;
+      Executing endpoint 'HTTP: PUT /api/v1/characters/{characterId:guid}'&#xD;
+info: Microsoft.AspNetCore.Http.Result.OkObjectResult[1]&#xD;
+      Setting HTTP status code 200.&#xD;
+info: Microsoft.AspNetCore.Http.Result.OkObjectResult[3]&#xD;
+      Writing value of type 'CharacterDto' as Json.&#xD;
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]&#xD;
+      Executed endpoint 'HTTP: PUT /api/v1/characters/{characterId:guid}'&#xD;
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]&#xD;
+      Request finished HTTP/1.1 PUT http://localhost/api/v1/characters/0874ac3e-2d78-4f4b-8e54-b5eff41add4a - 200 - application/json;+charset=utf-8 3.0449ms&#xD;
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]&#xD;
+      Request starting HTTP/1.1 POST http://localhost/api/v1/characters/0874ac3e-2d78-4f4b-8e54-b5eff41add4a/validate - application/json;+charset=utf-8 2&#xD;
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]&#xD;
+      Executing endpoint 'HTTP: POST /api/v1/characters/{characterId:guid}/validate'&#xD;
+info: Microsoft.AspNetCore.Http.Result.OkObjectResult[1]&#xD;
+      Setting HTTP status code 200.&#xD;
+info: Microsoft.AspNetCore.Http.Result.OkObjectResult[3]&#xD;
+      Writing value of type 'ValidationResultDto' as Json.&#xD;
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]&#xD;
+      Executed endpoint 'HTTP: POST /api/v1/characters/{characterId:guid}/validate'&#xD;
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]&#xD;
+      Request finished HTTP/1.1 POST http://localhost/api/v1/characters/0874ac3e-2d78-4f4b-8e54-b5eff41add4a/validate - 200 - application/json;+charset=utf-8 3.1474ms&#xD;
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]&#xD;
+      Request starting HTTP/1.1 POST http://localhost/api/v1/characters/0874ac3e-2d78-4f4b-8e54-b5eff41add4a/finalize - application/json;+charset=utf-8 22&#xD;
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]&#xD;
+      Executing endpoint 'HTTP: POST /api/v1/characters/{characterId:guid}/finalize'&#xD;
+info: Microsoft.AspNetCore.Http.Result.OkObjectResult[1]&#xD;
+      Setting HTTP status code 200.&#xD;
+info: Microsoft.AspNetCore.Http.Result.OkObjectResult[3]&#xD;
+      Writing value of type 'CharacterDto' as Json.&#xD;
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]&#xD;
+      Executed endpoint 'HTTP: POST /api/v1/characters/{characterId:guid}/finalize'&#xD;
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]&#xD;
+      Request finished HTTP/1.1 POST http://localhost/api/v1/characters/0874ac3e-2d78-4f4b-8e54-b5eff41add4a/finalize - 200 - application/json;+charset=utf-8 2.3700ms&#xD;
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]&#xD;
+      Request starting HTTP/1.1 GET http://localhost/api/v1/characters - - -&#xD;
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]&#xD;
+      Executing endpoint 'HTTP: GET /api/v1/characters'&#xD;
+info: Microsoft.AspNetCore.Http.Result.OkObjectResult[1]&#xD;
+      Setting HTTP status code 200.&#xD;
+info: Microsoft.AspNetCore.Http.Result.OkObjectResult[3]&#xD;
+      Writing value of type 'CharacterListDto' as Json.&#xD;
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]&#xD;
+      Executed endpoint 'HTTP: GET /api/v1/characters'&#xD;
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]&#xD;
+      Request finished HTTP/1.1 GET http://localhost/api/v1/characters - 200 - application/json;+charset=utf-8 1.3355ms&#xD;
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]&#xD;
+      Request starting HTTP/1.1 DELETE http://localhost/api/v1/characters/0874ac3e-2d78-4f4b-8e54-b5eff41add4a - - -&#xD;
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]&#xD;
+      Executing endpoint 'HTTP: DELETE /api/v1/characters/{characterId:guid}'&#xD;
+info: Microsoft.AspNetCore.Http.Result.NoContentResult[1]&#xD;
+      Setting HTTP status code 204.&#xD;
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]&#xD;
+      Executed endpoint 'HTTP: DELETE /api/v1/characters/{characterId:guid}'&#xD;
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]&#xD;
+      Request finished HTTP/1.1 DELETE http://localhost/api/v1/characters/0874ac3e-2d78-4f4b-8e54-b5eff41add4a - 204 - - 0.7855ms&#xD;
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]&#xD;
+      Request starting HTTP/1.1 GET http://localhost/api/v1/characters/0874ac3e-2d78-4f4b-8e54-b5eff41add4a - - -&#xD;
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]&#xD;
+      Executing endpoint 'HTTP: GET /api/v1/characters/{characterId:guid}'&#xD;
+info: Microsoft.AspNetCore.Http.Result.NotFoundObjectResult[1]&#xD;
+      Setting HTTP status code 404.&#xD;
+info: Microsoft.AspNetCore.Http.Result.NotFoundObjectResult[3]&#xD;
+      Writing value of type 'ErrorEnvelopeDto' as Json.&#xD;
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]&#xD;
+      Executed endpoint 'HTTP: GET /api/v1/characters/{characterId:guid}'&#xD;
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]&#xD;
+      Request finished HTTP/1.1 GET http://localhost/api/v1/characters/0874ac3e-2d78-4f4b-8e54-b5eff41add4a - 404 - application/json;+charset=utf-8 0.4384ms&#xD;
+[xUnit.net 00:00:01.13]   Finished:    CharacterManager.Backend.E2E.Tests&#xD;
+</StdOut>
+    </Output>
+    <CollectorDataEntries>
+      <Collector agentName="DESKTOP-OMOJ29N" uri="datacollector://microsoft/CoverletCodeCoverage/1.0" collectorDisplayName="XPlat code coverage">
+        <UriAttachments>
+          <UriAttachment>
+            <A href="DESKTOP-OMOJ29N\coverage.cobertura.xml"></A>
+          </UriAttachment>
+        </UriAttachments>
+      </Collector>
+    </CollectorDataEntries>
+  </ResultSummary>
+</TestRun>
