@@ -96,6 +96,14 @@ export function Field({ children, helpText, label }: FieldProps) {
   );
 }
 
+export function FieldError({ children }: { children?: ReactNode }) {
+  if (!children) {
+    return null;
+  }
+
+  return <span className="ui-field__error">{children}</span>;
+}
+
 export function Input({ className, ...props }: InputHTMLAttributes<HTMLInputElement>) {
   return <input className={joinClassNames("ui-input", className)} {...props} />;
 }
@@ -229,6 +237,22 @@ export function Badge({ children, icon, tone = "info" }: BadgeProps) {
       {icon ? <span>{icon}</span> : null}
       {children}
     </span>
+  );
+}
+
+type NoticeProps = {
+  children: ReactNode;
+  className?: string;
+  icon?: ReactNode;
+  tone?: Tone;
+};
+
+export function Notice({ children, className, icon, tone = "info" }: NoticeProps) {
+  return (
+    <div className={joinClassNames("ui-notice", `ui-notice--${tone}`, className)} role={tone === "danger" ? "alert" : "status"}>
+      {icon ? <span className="ui-notice__icon">{icon}</span> : null}
+      <div>{children}</div>
+    </div>
   );
 }
 
