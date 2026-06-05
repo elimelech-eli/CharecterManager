@@ -8,6 +8,8 @@ Enable branch protection or a repository ruleset for `main` and require these st
 
 - `CI / .NET unit tests`
 - `CI / Desktop typecheck and build`
+- `CI / UI component tests`
+- `CI / UI E2E tests`
 
 Recommended settings:
 
@@ -22,9 +24,9 @@ The `E2E After Merge` workflow runs on every push to `main`. It currently perfor
 
 - Installs desktop dependencies.
 - Runs .NET tests.
+- Runs UI component tests.
+- Runs UI E2E tests.
 - Builds the React/Electron renderer.
 - Publishes the .NET backend.
-- Packages the Windows portable app.
-- Uploads the generated `.exe` artifact.
-
-Dedicated UI and browser-driven E2E tests can be added to this workflow later.
+- Packages the unpacked Windows app.
+- Uploads the generated app artifact.

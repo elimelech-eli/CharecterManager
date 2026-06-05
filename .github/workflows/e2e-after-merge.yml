@@ -41,6 +41,14 @@ jobs:
       - name: Run .NET unit tests
         run: dotnet test tests/CharacterManager.Core.Tests/CharacterManager.Core.Tests.csproj --configuration Release --logger trx --results-directory TestResults
 
+      - name: Install Playwright browsers
+        working-directory: apps/desktop
+        run: npx playwright install chromium
+
+      - name: Run UI component and E2E tests
+        working-directory: apps/desktop
+        run: npm run test:ui
+
       - name: Package unpacked Windows app
         working-directory: apps/desktop
         run: npm run package:win:dir
@@ -57,4 +65,11 @@ jobs:
         with:
           name: e2e-dotnet-test-results
           path: TestResults/*.trx
+
+      - name: Upload UI test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: e2e-ui-test-results
+          path: tests/ui/Reports/**
 

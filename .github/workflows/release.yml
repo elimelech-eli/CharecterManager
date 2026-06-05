@@ -41,6 +41,14 @@ jobs:
       - name: Run .NET unit tests
         run: dotnet test tests/CharacterManager.Core.Tests/CharacterManager.Core.Tests.csproj --configuration Release
 
+      - name: Install Playwright browsers
+        working-directory: apps/desktop
+        run: npx playwright install chromium
+
+      - name: Run UI component and E2E tests
+        working-directory: apps/desktop
+        run: npm run test:ui
+
       - name: Validate Windows signing secrets
         env:
           CSC_LINK: ${{ secrets.WINDOWS_CERTIFICATE_BASE64 }}
