@@ -33,11 +33,14 @@ public sealed class BackendApiLifecycleTests
         var detail = await GetJsonAsync(client, "/api/v1/rulesets/ironsworn");
 
         Assert.Equal("ironsworn", list["items"]?[0]?["id"]?.GetValue<string>());
-        Assert.Equal("metadataOnly", detail["licensingStatus"]?.GetValue<string>());
+        Assert.Equal("summaryApproved", detail["licensingStatus"]?.GetValue<string>());
         Assert.Equal("edge", detail["stats"]?[0]?["id"]?.GetValue<string>());
         Assert.Equal(3, detail["meters"]?.AsArray().Count);
         Assert.Contains(detail["debilities"]!.AsArray(), node => node?["id"]?.GetValue<string>() == "wounded");
-        Assert.All(detail["assets"]!.AsArray(), asset => Assert.Equal("metadataOnly", asset?["licensingStatus"]?.GetValue<string>()));
+        Assert.Contains(detail["assets"]!.AsArray(), asset => asset?["id"]?.GetValue<string>() == "alchemist");
+        Assert.Contains(detail["assets"]!.AsArray(), asset => asset?["id"]?.GetValue<string>() == "cave-lion");
+        Assert.DoesNotContain(detail["assets"]!.AsArray(), asset => asset?["id"]?.GetValue<string>()?.Contains("placeholder", StringComparison.OrdinalIgnoreCase) == true);
+        Assert.All(detail["assets"]!.AsArray(), asset => Assert.Equal("summaryApproved", asset?["licensingStatus"]?.GetValue<string>()));
     }
 
     [Fact]
@@ -215,9 +218,9 @@ public sealed class BackendApiLifecycleTests
             ["wits"] = 1
         };
         draft["assets"] = new JsonArray(
-            Asset("path-placeholder", null),
-            Asset("companion-placeholder", "Ash"),
-            Asset("combat-talent-placeholder", null));
+            Asset("alchemist", null),
+            Asset("cave-lion", "Ash"),
+            Asset("archer", null));
         draft["progressTracks"] = new JsonArray(new JsonObject
         {
             ["id"] = "track-id",

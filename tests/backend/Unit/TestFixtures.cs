@@ -37,9 +37,9 @@ internal static class TestFixtures
             Concept = "Exiled scout",
             Assets =
             [
-                new SelectedAsset("path-placeholder", ["ability-1"], null, null, "", null),
-                new SelectedAsset("companion-placeholder", ["ability-1"], "Ash", 5, "", null),
-                new SelectedAsset("combat-talent-placeholder", ["ability-1"], null, null, "", null)
+                new SelectedAsset("alchemist", ["ability-1"], null, null, "", null),
+                new SelectedAsset("cave-lion", ["ability-1"], "Ash", 5, "", null),
+                new SelectedAsset("archer", ["ability-1"], null, null, "", null)
             ],
             Vows =
             [
