@@ -51,6 +51,9 @@ ScaffoldingReadMe.txt
 TestResult.xml
 nunit-*.xml
 CodeCoverage/
+apps/desktop/test-results/
+tests/ui/Reports/
+.ui-e2e-data/
 
 # Logs
 *.log

@@ -23,23 +23,32 @@
     "package:win:release": "npm run build && npm run clean:backend && npm run publish:backend:self-contained && npm run copy:backend:win && electron-builder --config electron-builder.release.yml --win nsis",
     "cert:dev:create": "powershell -ExecutionPolicy Bypass -File scripts/create-dev-certificate.ps1",
     "cert:dev:remove": "powershell -ExecutionPolicy Bypass -File scripts/remove-dev-certificate.ps1",
-    "test:dotnet": "dotnet test ../../tests/CharacterManager.Core.Tests/CharacterManager.Core.Tests.csproj"
+    "test:dotnet": "dotnet test ../../tests/CharacterManager.Core.Tests/CharacterManager.Core.Tests.csproj",
+    "test:ui": "npm run test:ui:unit && npm run test:ui:e2e",
+    "test:ui:unit": "vitest run --config ../../tests/ui/Unit/vitest.config.ts",
+    "test:ui:e2e": "set NODE_PATH=./node_modules&& playwright test --config ../../tests/ui/E2E/playwright.config.ts"
   },
   "dependencies": {
+    "lucide-react": "^0.468.0",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "lucide-react": "^0.468.0"
+    "react-dom": "^19.0.0"
   },
   "devDependencies": {
-    "@vitejs/plugin-react": "^4.3.4",
+    "@playwright/test": "^1.60.0",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
+    "@testing-library/user-event": "^14.6.1",
     "@types/node": "^22.10.2",
     "@types/react": "^19.0.1",
     "@types/react-dom": "^19.0.2",
+    "@vitejs/plugin-react": "^4.3.4",
     "concurrently": "^9.1.0",
     "electron": "^33.2.1",
     "electron-builder": "^25.1.8",
+    "jsdom": "^29.1.1",
     "typescript": "^5.7.2",
     "vite": "^6.0.0",
+    "vitest": "^4.1.8",
     "wait-on": "^8.0.1"
   },
   "build": {
