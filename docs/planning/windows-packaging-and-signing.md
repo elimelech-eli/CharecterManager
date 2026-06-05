@@ -25,3 +25,33 @@ Add these repository secrets before publishing Windows releases:
 The previous default produced a portable self-extracting `.exe` that bundled Electron plus a generated .NET backend executable. That pattern is high-risk for antivirus false positives because the file is unsigned, newly generated, self-extracting, and contains another executable payload.
 
 Portable builds should not be restored as the default until releases are signed and tested against Windows reputation tooling.
+
+## Local Self-Signed Development Signing
+
+Self-signed signing is available only to reduce local development friction. It does not help public users unless they manually trust the certificate, which they should not be asked to do.
+
+Create and trust a local development certificate:
+
+```powershell
+cd apps/desktop
+npm run cert:dev:create
+```
+
+If Windows still reports the generated installer as signed by an untrusted publisher, run the same command from an elevated PowerShell session or manually import `apps/desktop/.certificates/character-manager-dev-signing.cer` into:
+
+- Trusted Root Certification Authorities
+- Trusted Publishers
+
+Build a locally self-signed installer:
+
+```powershell
+npm run package:win:self-signed
+```
+
+Remove the local development certificate:
+
+```powershell
+npm run cert:dev:remove
+```
+
+The generated certificate files and random PFX password are stored under `apps/desktop/.certificates`, which is ignored by Git.

@@ -19,7 +19,10 @@
     "copy:backend:win": "node scripts/copy-backend.mjs win-x64",
     "package:win": "npm run package:win:dir",
     "package:win:dir": "npm run build && npm run clean:backend && npm run publish:backend:framework && npm run copy:backend:framework && electron-builder --dir",
+    "package:win:self-signed": "powershell -ExecutionPolicy Bypass -File scripts/package-win-self-signed.ps1",
     "package:win:release": "npm run build && npm run clean:backend && npm run publish:backend:self-contained && npm run copy:backend:win && electron-builder --config electron-builder.release.yml --win nsis",
+    "cert:dev:create": "powershell -ExecutionPolicy Bypass -File scripts/create-dev-certificate.ps1",
+    "cert:dev:remove": "powershell -ExecutionPolicy Bypass -File scripts/remove-dev-certificate.ps1",
     "test:dotnet": "dotnet test ../../tests/CharacterManager.Core.Tests/CharacterManager.Core.Tests.csproj"
   },
   "dependencies": {
