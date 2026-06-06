@@ -1,0 +1,540 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QA Bug Report - CharacterManager</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f6f7f8;
+      --panel: #ffffff;
+      --ink: #182026;
+      --muted: #5f6f7a;
+      --line: #d7dee3;
+      --line-strong: #bac7cf;
+      --accent: #2f6f73;
+      --accent-soft: #e4f0ef;
+      --high: #b42318;
+      --medium: #b54708;
+      --backend: #315a9c;
+      --ui: #6b4bb8;
+      --shadow: 0 10px 30px rgba(18, 31, 38, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font: 15px/1.55 "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    main {
+      width: min(1120px, calc(100% - 40px));
+      margin: 0 auto;
+      padding: 40px 0 56px;
+    }
+
+    header.report-header {
+      padding: 36px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      box-shadow: var(--shadow);
+    }
+
+    h1, h2, h3 {
+      margin: 0;
+      line-height: 1.18;
+    }
+
+    h1 {
+      font-size: clamp(32px, 5vw, 52px);
+      letter-spacing: 0;
+    }
+
+    h2 {
+      margin-top: 34px;
+      font-size: 24px;
+    }
+
+    h3 {
+      font-size: 21px;
+    }
+
+    p {
+      margin: 8px 0 0;
+    }
+
+    code {
+      padding: 1px 5px;
+      border: 1px solid var(--line);
+      border-radius: 5px;
+      background: #f2f5f6;
+      color: #23343d;
+      font-family: "Cascadia Mono", Consolas, monospace;
+      font-size: 0.92em;
+    }
+
+    .kicker {
+      display: inline-block;
+      margin-bottom: 10px;
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .meta-grid,
+    .summary-grid {
+      display: grid;
+      gap: 14px;
+      margin-top: 20px;
+    }
+
+    .meta-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .summary-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .meta-card,
+    .summary-card,
+    .bug,
+    .section-card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+    }
+
+    .meta-card,
+    .summary-card {
+      padding: 16px;
+    }
+
+    .summary-card strong {
+      display: block;
+      margin-top: 4px;
+      font-size: 30px;
+      line-height: 1;
+    }
+
+    .label {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .bug {
+      margin-top: 18px;
+      overflow: hidden;
+      box-shadow: 0 4px 16px rgba(18, 31, 38, 0.05);
+    }
+
+    .bug-header {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      justify-content: space-between;
+      padding: 22px 24px;
+      border-bottom: 1px solid var(--line);
+      background: linear-gradient(180deg, #ffffff, #fbfcfc);
+    }
+
+    .bug-body {
+      display: grid;
+      gap: 18px;
+      padding: 22px 24px 24px;
+    }
+
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .badge.high { background: var(--high); }
+    .badge.medium { background: var(--medium); }
+    .badge.backend { background: var(--backend); }
+    .badge.ui { background: var(--ui); }
+
+    .source,
+    .expected,
+    .actual,
+    .notes {
+      padding: 15px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfcfc;
+    }
+
+    .actual {
+      border-color: #f0c1bc;
+      background: #fff7f6;
+    }
+
+    .expected {
+      border-color: #c8d9d7;
+      background: var(--accent-soft);
+    }
+
+    ol, ul {
+      margin: 8px 0 0;
+      padding-left: 22px;
+    }
+
+    li + li {
+      margin-top: 5px;
+    }
+
+    .section-card {
+      margin-top: 18px;
+      padding: 22px 24px;
+    }
+
+    footer {
+      margin-top: 26px;
+      color: var(--muted);
+      font-size: 13px;
+      text-align: center;
+    }
+
+    @media (max-width: 800px) {
+      main {
+        width: min(100% - 24px, 1120px);
+        padding-top: 20px;
+      }
+
+      header.report-header,
+      .bug-header,
+      .bug-body,
+      .section-card {
+        padding: 18px;
+      }
+
+      .meta-grid,
+      .summary-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .bug-header {
+        display: block;
+      }
+    }
+
+    @media print {
+      body {
+        background: #fff;
+      }
+
+      main {
+        width: 100%;
+        padding: 0;
+      }
+
+      header.report-header,
+      .bug,
+      .section-card {
+        box-shadow: none;
+        break-inside: avoid;
+      }
+
+      .bug {
+        page-break-inside: avoid;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header class="report-header">
+      <span class="kicker">Senior QA Review</span>
+      <h1>QA Bug Report</h1>
+      <p>Manual EXE test pass for the Electron + React + .NET CharacterManager application, using the local Ironsworn PDFs as source of truth.</p>
+
+      <section class="meta-grid" aria-label="Test environment">
+        <div class="meta-card">
+          <span class="label">App Version / Build</span>
+          <p><code>0.1.0</code>, rebuilt from <code>origin/main</code> commit <code>59d46a6ad48b422f980fcad70a700fbe4f6b08db</code> using <code>npm.cmd run package:win</code></p>
+        </div>
+        <div class="meta-card">
+          <span class="label">OS / Date</span>
+          <p>Microsoft Windows NT <code>10.0.26200.0</code><br>Tested on 2026-06-06</p>
+        </div>
+        <div class="meta-card">
+          <span class="label">EXE Path</span>
+          <p><code>C:\Users\Eli\OneDrive\Documents\CharacterManager\.codex-qa-main\apps\desktop\release\win-unpacked\CharacterManager.exe</code></p>
+        </div>
+        <div class="meta-card">
+          <span class="label">PDFs Used</span>
+          <p><code>Ironsworn-Rulebook.pdf</code>, <code>Ironsworn-Assets.pdf</code>, <code>Ironsworn-Playkit.pdf</code>, <code>Ironsworn-Truths-Workbook.pdf</code></p>
+        </div>
+      </section>
+    </header>
+
+    <section aria-label="Summary">
+      <h2>Summary</h2>
+      <div class="summary-grid">
+        <div class="summary-card"><span class="label">Total Bugs</span><strong>5</strong></div>
+        <div class="summary-card"><span class="label">UI Bugs</span><strong>2</strong></div>
+        <div class="summary-card"><span class="label">Backend Bugs</span><strong>3</strong></div>
+        <div class="summary-card"><span class="label">Severity</span><strong>3 High</strong><p>2 Medium, 0 Critical, 0 Low</p></div>
+      </div>
+    </section>
+
+    <section aria-label="Bugs">
+      <h2>Bugs</h2>
+
+      <article class="bug">
+        <div class="bug-header">
+          <div>
+            <h3>Character can be finalized without an inciting-incident vow</h3>
+            <div class="badge-row">
+              <span class="badge backend">Backend</span>
+              <span class="badge high">High</span>
+            </div>
+          </div>
+        </div>
+        <div class="bug-body">
+          <div class="source">
+            <span class="label">Source of truth</span>
+            <p><code>Ironsworn-Rulebook.pdf</code>, character creation / vows guidance: a starting character should have both a background vow and an inciting-incident vow.</p>
+          </div>
+          <div>
+            <span class="label">Steps to recreate</span>
+            <ol>
+              <li>Launch <code>CharacterManager.exe</code>.</li>
+              <li>Click <code>New Character</code>.</li>
+              <li>Enter name <code>QA One Vow Accepted</code> and concept <code>Exiled Ironlander scout</code>.</li>
+              <li>Assign stats as Edge <code>3</code>, Heart <code>2</code>, Iron <code>2</code>, Shadow <code>1</code>, Wits <code>1</code>.</li>
+              <li>Select exactly three non-companion assets: <code>Alchemist</code>, <code>Archer</code>, and <code>Duelist</code>.</li>
+              <li>Leave bonds empty.</li>
+              <li>On <code>Starting Vow</code>, add only <code>Background vow</code>.</li>
+              <li>Set title <code>Reclaim Frostmark Hall</code> and rank <code>Extreme</code>.</li>
+              <li>Do not add an <code>Inciting-incident vow</code>.</li>
+              <li>Continue to <code>Review</code> and click <code>Finalize</code>.</li>
+            </ol>
+          </div>
+          <div class="expected">
+            <span class="label">Expected result</span>
+            <p>Finalization should fail and require both starting vows before creating a playable Ironsworn character.</p>
+          </div>
+          <div class="actual">
+            <span class="label">Actual result</span>
+            <p>The app finalized the character and opened the active character view. The finalized character showed <code>ACTIVE VOWS 1</code> and only <code>Reclaim Frostmark Hall</code>.</p>
+          </div>
+          <div class="notes">
+            <span class="label">Notes for developer</span>
+            <p>The packaged backend ruleset response reports <code>startingCharacter.requiredActiveVowCount: 1</code>, and the UI checklist says <code>At least one active vow has title and rank</code>. Suspected area: backend ruleset data and <code>CharacterValidator.ValidateVows</code>.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="bug">
+        <div class="bug-header">
+          <div>
+            <h3>Review screen shows a success validation message before validation has run</h3>
+            <div class="badge-row">
+              <span class="badge ui">UI</span>
+              <span class="badge medium">Medium</span>
+            </div>
+          </div>
+        </div>
+        <div class="bug-body">
+          <div class="source">
+            <span class="label">Source of truth</span>
+            <p>App design expectation: review/finalization should clearly communicate whether backend validation has run and whether required creation fields are missing.</p>
+          </div>
+          <div>
+            <span class="label">Steps to recreate</span>
+            <ol>
+              <li>Launch <code>CharacterManager.exe</code>.</li>
+              <li>Click <code>New Character</code>.</li>
+              <li>Do not enter a name, stats, assets, or vows.</li>
+              <li>Click wizard step <code>Review</code>.</li>
+              <li>Observe the validation area.</li>
+              <li>Click <code>Finalize</code>.</li>
+            </ol>
+          </div>
+          <div class="expected">
+            <span class="label">Expected result</span>
+            <p>Before validation runs, the Review screen should not present the draft as clean. It should either show validation has not been run, run validation automatically, or show required-field issues.</p>
+          </div>
+          <div class="actual">
+            <span class="label">Actual result</span>
+            <p>The Review screen displays <code>No backend validation issues are currently reported.</code> for a completely incomplete draft. After clicking <code>Finalize</code>, the app then reports errors for missing/invalid stats, missing assets, missing vow, and missing name.</p>
+          </div>
+          <div class="notes">
+            <span class="label">Notes for developer</span>
+            <p>This appears to be a UI state problem where <code>validation === null</code> is rendered the same as a successful validation result. Suspected area: <code>ReviewStep</code> / <code>ValidationPanel</code>.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="bug">
+        <div class="bug-header">
+          <div>
+            <h3>Active character meters, momentum, vows, bonds, and debilities are read-only</h3>
+            <div class="badge-row">
+              <span class="badge ui">UI</span>
+              <span class="badge high">High</span>
+            </div>
+          </div>
+        </div>
+        <div class="bug-body">
+          <div class="source">
+            <span class="label">Source of truth</span>
+            <p><code>Ironsworn-Rulebook.pdf</code> and <code>Ironsworn-Playkit.pdf</code>: play requires tracking health, spirit, supply, momentum, debilities, vow progress, and bonds as moves and consequences change character state.</p>
+          </div>
+          <div>
+            <span class="label">Steps to recreate</span>
+            <ol>
+              <li>Launch <code>CharacterManager.exe</code>.</li>
+              <li>Open a finalized character, such as <code>QA One Vow Accepted</code>.</li>
+              <li>Inspect <code>Overview</code>, <code>Vows</code>, and <code>Conditions</code>.</li>
+              <li>Try to change health, spirit, supply, momentum, vow progress, or debilities.</li>
+            </ol>
+          </div>
+          <div class="expected">
+            <span class="label">Expected result</span>
+            <p>A user should be able to record play-state changes: decrease/increase condition meters, adjust momentum, mark debilities, mark vow progress, and update bonds/vows.</p>
+          </div>
+          <div class="actual">
+            <span class="label">Actual result</span>
+            <p>The active character screens expose only navigation buttons. <code>Overview</code>, <code>Vows</code>, and <code>Conditions</code> had zero inputs, selects, textareas, steppers, toggles, or save controls. Condition meters, momentum, vow progress, bonds, and debilities are display-only.</p>
+          </div>
+          <div class="notes">
+            <span class="label">Notes for developer</span>
+            <p>Suspected area: active character screens after finalization. This blocks the core character manager use case after creation.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="bug">
+        <div class="bug-header">
+          <div>
+            <h3>Ruleset API does not expose the Ironsworn move catalog</h3>
+            <div class="badge-row">
+              <span class="badge backend">Backend</span>
+              <span class="badge high">High</span>
+            </div>
+          </div>
+        </div>
+        <div class="bug-body">
+          <div class="source">
+            <span class="label">Source of truth</span>
+            <p><code>Ironsworn-Rulebook.pdf</code>, moves chapter, and <code>Ironsworn-Playkit.pdf</code>: moves such as Face Danger, Secure an Advantage, Endure Harm, Swear an Iron Vow, Reach a Milestone, and Fulfill Your Vow are core play procedures.</p>
+          </div>
+          <div>
+            <span class="label">Steps to recreate</span>
+            <ol>
+              <li>Launch <code>CharacterManager.exe</code>.</li>
+              <li>Query the packaged backend endpoint <code>http://127.0.0.1:53987/api/v1/rulesets/ironsworn</code>.</li>
+              <li>Inspect the JSON response.</li>
+              <li>In the UI, inspect the primary navigation and finalized character tabs.</li>
+            </ol>
+          </div>
+          <div class="expected">
+            <span class="label">Expected result</span>
+            <p>The ruleset API should expose move definitions needed by the UI, and the app should provide a move list or move resolution workflow.</p>
+          </div>
+          <div class="actual">
+            <span class="label">Actual result</span>
+            <p>The ruleset response includes stats, starting character data, meters, momentum, ranks, debilities, and assets, but no <code>moves</code> collection. The UI has no Moves navigation or move-resolution screen.</p>
+          </div>
+          <div class="notes">
+            <span class="label">Notes for developer</span>
+            <p>The in-memory catalog appears to define move metadata, but the API DTO mapping does not include it. Suspected area: ruleset DTO/API mapping and move UI.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="bug">
+        <div class="bug-header">
+          <div>
+            <h3>Encumbered debility is missing from the Ironsworn ruleset</h3>
+            <div class="badge-row">
+              <span class="badge backend">Backend</span>
+              <span class="badge medium">Medium</span>
+            </div>
+          </div>
+        </div>
+        <div class="bug-body">
+          <div class="source">
+            <span class="label">Source of truth</span>
+            <p><code>Ironsworn-Rulebook.pdf</code> / character sheet debilities and <code>Ironsworn-Playkit.pdf</code>: conditions include Wounded, Shaken, Unprepared, and Encumbered.</p>
+          </div>
+          <div>
+            <span class="label">Steps to recreate</span>
+            <ol>
+              <li>Launch <code>CharacterManager.exe</code>.</li>
+              <li>Query <code>http://127.0.0.1:53987/api/v1/rulesets/ironsworn</code>.</li>
+              <li>Inspect the <code>debilities</code> array.</li>
+            </ol>
+          </div>
+          <div class="expected">
+            <span class="label">Expected result</span>
+            <p>The ruleset debilities should include <code>Encumbered</code> along with the other Ironsworn conditions.</p>
+          </div>
+          <div class="actual">
+            <span class="label">Actual result</span>
+            <p>The debilities returned are <code>Wounded</code>, <code>Shaken</code>, <code>Unprepared</code>, <code>Maimed</code>, <code>Corrupted</code>, <code>Cursed</code>, and <code>Tormented</code>. <code>Encumbered</code> is missing.</p>
+          </div>
+          <div class="notes">
+            <span class="label">Notes for developer</span>
+            <p>Suspected area: <code>InMemoryRulesetCatalog</code> debility data and any condition/debility UI generated from it.</p>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section class="section-card">
+      <h2>Potential Issues / Questions</h2>
+      <ul>
+        <li><code>npm.cmd run package:win</code> produced an unpacked executable at <code>release\win-unpacked\CharacterManager.exe</code>, not the portable artifact described in the root README. This may be intentional after packaging changes, but the docs and QA expectation mention a portable EXE.</li>
+        <li>Clicking <code>New Character</code> immediately creates and persists an untitled draft. Failed or abandoned creation attempts leave multiple <code>Untitled draft</code> records in the library unless the user manually deletes them.</li>
+        <li>Asset cards intentionally show metadata-only placeholder ability text. This may be a product/licensing decision, but it limits in-app verification against <code>Ironsworn-Assets.pdf</code>.</li>
+      </ul>
+    </section>
+
+    <section class="section-card">
+      <h2>Areas Not Fully Tested</h2>
+      <ul>
+        <li>Full NSIS/release installer flow and self-signed packaging.</li>
+        <li>Corrupt local JSON character records and backend-unavailable recovery beyond visible retry messaging.</li>
+        <li>Exhaustive asset catalog comparison against every card in <code>Ironsworn-Assets.pdf</code>.</li>
+        <li>Exact move math and roll resolution beyond confirming the UI/API lacks a move workflow.</li>
+        <li>Visual layout across multiple display sizes and high-DPI settings.</li>
+      </ul>
+    </section>
+
+    <footer>
+      Generated from <code>qa-bug-report.md</code>.
+    </footer>
+  </main>
+</body>
+</html>
