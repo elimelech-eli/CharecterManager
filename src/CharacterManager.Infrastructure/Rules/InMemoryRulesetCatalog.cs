@@ -30,7 +30,7 @@ public sealed class InMemoryRulesetCatalog : IRulesetCatalog
             MomentumReset: 2,
             RequiredAssetCount: 3,
             MaxStartingBonds: 3,
-            RequiredActiveVowCount: 1),
+            RequiredActiveVowCount: 2),
         Meters:
         [
             new("health", "Health", 0, 5),
@@ -51,6 +51,7 @@ public sealed class InMemoryRulesetCatalog : IRulesetCatalog
             new("wounded", "Wounded", "condition", "health", false, false, null),
             new("shaken", "Shaken", "condition", "spirit", false, false, null),
             new("unprepared", "Unprepared", "condition", "supply", false, false, null),
+            new("encumbered", "Encumbered", "condition", null, false, false, null),
             new("maimed", "Maimed", "bane", null, true, false, null),
             new("corrupted", "Corrupted", "bane", null, true, false, null),
             new("cursed", "Cursed", "burden", null, true, true, null),

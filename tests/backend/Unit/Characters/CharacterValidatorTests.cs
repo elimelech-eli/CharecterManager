@@ -156,7 +156,7 @@ public sealed class CharacterValidatorTests
     }
 
     [Fact]
-    public async Task FinalizedCharacterRequiresNameThreeAssetsAndActiveVow()
+    public async Task FinalizedCharacterRequiresNameThreeAssetsAndStartingVows()
     {
         var ruleset = await TestFixtures.GetRulesetAsync();
         var character = TestFixtures.CompleteCharacter(ruleset) with
@@ -171,6 +171,31 @@ public sealed class CharacterValidatorTests
         Assert.Contains(result.Errors, issue => issue.Code == "character.nameRequired");
         Assert.Contains(result.Errors, issue => issue.Code == "assets.invalidCount");
         Assert.Contains(result.Errors, issue => issue.Code == "vow.activeRequired");
+        Assert.Contains(result.Errors, issue => issue.Code == "vow.backgroundRequired");
+        Assert.Contains(result.Errors, issue => issue.Code == "vow.incitingIncidentRequired");
+    }
+
+    [Fact]
+    public async Task FinalizedCharacterRequiresBothBackgroundAndIncitingVows()
+    {
+        var ruleset = await TestFixtures.GetRulesetAsync();
+        var character = TestFixtures.CompleteCharacter(ruleset) with
+        {
+            Vows =
+            [
+                new Vow("background-vow-id", "Reclaim Frostmark Hall", "", "extreme", "active", "background-vow-track", true, false, 0, "", DateTimeOffset.UtcNow, null)
+            ],
+            ProgressTracks =
+            [
+                TestFixtures.ProgressTrack("background-vow-track", "Reclaim Frostmark Hall", "extreme")
+            ]
+        };
+
+        var result = new CharacterValidator().Validate(character, ruleset, requireFinalizedFields: true);
+
+        Assert.Contains(result.Errors, issue => issue.Code == "vow.activeRequired" && issue.Field == "vows" && issue.Step == "vows");
+        Assert.Contains(result.Errors, issue => issue.Code == "vow.incitingIncidentRequired" && issue.Field == "vows" && issue.Step == "vows");
+        Assert.DoesNotContain(result.Errors, issue => issue.Code == "vow.backgroundRequired");
     }
 
     [Fact]

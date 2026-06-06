@@ -16,7 +16,8 @@ internal static class TestFixtures
     public static Character CompleteCharacter(Ruleset ruleset)
     {
         var now = DateTimeOffset.UtcNow;
-        var track = ProgressTrack("vow-track");
+        var backgroundTrack = ProgressTrack("background-vow-track", "Reclaim Frostmark Hall", "extreme");
+        var incitingTrack = ProgressTrack("inciting-vow-track", "Recover the lost banner", "dangerous");
         var character = Character.CreateDraft(
             ruleset.Id,
             ruleset.RulesetVersion,
@@ -43,17 +44,18 @@ internal static class TestFixtures
             ],
             Vows =
             [
-                new Vow("vow-id", "Recover the lost banner", "", "dangerous", "active", track.Id, false, true, 0, "", now, null)
+                new Vow("background-vow-id", "Reclaim Frostmark Hall", "", "extreme", "active", backgroundTrack.Id, true, false, 0, "", now, null),
+                new Vow("inciting-vow-id", "Recover the lost banner", "", "dangerous", "active", incitingTrack.Id, false, true, 0, "", now, null)
             ],
-            ProgressTracks = [track]
+            ProgressTracks = [backgroundTrack, incitingTrack]
         };
     }
 
-    public static ProgressTrack ProgressTrack(string id) => new(
+    public static ProgressTrack ProgressTrack(string id, string name = "Recover the lost banner", string rank = "dangerous") => new(
         Id: id,
-        Name: "Recover the lost banner",
+        Name: name,
         Type: "vow",
-        Rank: "dangerous",
+        Rank: rank,
         Ticks: 8,
         MaxTicks: CharacterManager.Core.Characters.ProgressTrack.DefaultMaxTicks,
         Status: "active",
