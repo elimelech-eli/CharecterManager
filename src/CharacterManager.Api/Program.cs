@@ -250,6 +250,7 @@ static RulesetDto MapRuleset(Ruleset ruleset) => new(
     ruleset.Momentum,
     ruleset.Ranks,
     ruleset.Debilities,
+    ruleset.Moves,
     ruleset.Assets);
 
 static CharacterSummaryDto MapSummary(CharacterListEntry entry, ValidationResult? validation)
@@ -383,6 +384,7 @@ internal sealed record RulesetDto(
     MomentumRules Momentum,
     IReadOnlyList<string> Ranks,
     IReadOnlyList<DebilityDefinition> Debilities,
+    IReadOnlyList<MoveDefinition> Moves,
     IReadOnlyList<AssetDefinition> Assets);
 
 internal sealed record CharacterListDto(IReadOnlyList<CharacterSummaryDto> Items);

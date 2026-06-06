@@ -39,12 +39,19 @@ const ruleset: RulesetDto = {
     momentumReset: 2,
     requiredAssetCount: 3,
     maxStartingBonds: 3,
-    requiredActiveVowCount: 1
+    requiredActiveVowCount: 2
   },
   meters: [],
   momentum: { minimum: -6, baseMax: 10, resetByMarkedDebilityCount: [] },
   ranks: ["troublesome", "dangerous", "formidable", "extreme", "epic"],
-  debilities: [],
+  debilities: [
+    { id: "encumbered", name: "Encumbered", category: "condition", blocksMeterIncrease: null, isPermanentByDefault: false, requiresLinkedVow: false, sourceReference: null }
+  ],
+  moves: [
+    { id: "face-danger", name: "Face Danger", trigger: "When you attempt something risky or react to an imminent threat.", statId: null },
+    { id: "swear-an-iron-vow", name: "Swear an Iron Vow", trigger: "When you swear upon iron to complete a quest.", statId: "heart" },
+    { id: "fulfill-your-vow", name: "Fulfill Your Vow", trigger: "When you achieve what you believe to be the fulfillment of your vow.", statId: null }
+  ],
   assets: [
     {
       id: "alchemist",

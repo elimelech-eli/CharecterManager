@@ -16,9 +16,14 @@ public sealed class RulesetCatalogTests
         Assert.Equal("summaryApproved", ruleset.LicensingStatus);
         Assert.Equal(["edge", "heart", "iron", "shadow", "wits"], ruleset.Stats.Select(stat => stat.Id).ToArray());
         Assert.Equal([3, 2, 2, 1, 1], ruleset.StartingCharacter.StatArray);
+        Assert.Equal(2, ruleset.StartingCharacter.RequiredActiveVowCount);
         Assert.Contains(ruleset.Debilities, debility => debility.Id == "wounded" && debility.BlocksMeterIncrease == "health");
         Assert.Contains(ruleset.Debilities, debility => debility.Id == "shaken" && debility.BlocksMeterIncrease == "spirit");
         Assert.Contains(ruleset.Debilities, debility => debility.Id == "unprepared" && debility.BlocksMeterIncrease == "supply");
+        Assert.Contains(ruleset.Debilities, debility => debility.Id == "encumbered" && debility.Category == "condition");
+        Assert.Contains(ruleset.Moves, move => move.Id == "face-danger");
+        Assert.Contains(ruleset.Moves, move => move.Id == "swear-an-iron-vow");
+        Assert.Contains(ruleset.Moves, move => move.Id == "fulfill-your-vow");
         Assert.Contains(ruleset.Assets, asset => asset.Id == "alchemist" && asset.Type == "path");
         Assert.Contains(ruleset.Assets, asset => asset.Id == "cave-lion" && asset.Type == "companion" && asset.RequiresCompanionName);
         Assert.Contains(ruleset.Assets, asset => asset.Id == "archer" && asset.Type == "combat-talent");

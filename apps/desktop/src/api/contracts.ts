@@ -25,6 +25,7 @@ export type RulesetDto = RulesetSummaryDto & {
   momentum: MomentumRulesDto;
   ranks: string[];
   debilities: DebilityDefinitionDto[];
+  moves: MoveDefinitionDto[];
   assets: AssetDefinitionDto[];
 };
 
@@ -71,6 +72,13 @@ export type DebilityDefinitionDto = {
   isPermanentByDefault: boolean;
   requiresLinkedVow: boolean;
   sourceReference: string | null;
+};
+
+export type MoveDefinitionDto = {
+  id: string;
+  name: string;
+  trigger: string;
+  statId: string | null;
 };
 
 export type AssetDefinitionDto = {

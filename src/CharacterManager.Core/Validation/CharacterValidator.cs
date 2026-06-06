@@ -223,7 +223,17 @@ public sealed class CharacterValidator
         var activeVows = character.Vows.Where(vow => vow.Status == "active").ToArray();
         if (requireFinalizedFields && activeVows.Length < ruleset.StartingCharacter.RequiredActiveVowCount)
         {
-            issues.Add(Error("vow.activeRequired", "At least one active vow is required before finalizing.", "vows", "vows"));
+            issues.Add(Error("vow.activeRequired", $"At least {ruleset.StartingCharacter.RequiredActiveVowCount} active vows are required before finalizing.", "vows", "vows"));
+        }
+
+        if (requireFinalizedFields && !activeVows.Any(vow => vow.IsBackgroundVow))
+        {
+            issues.Add(Error("vow.backgroundRequired", "A background vow is required before finalizing.", "vows", "vows"));
+        }
+
+        if (requireFinalizedFields && !activeVows.Any(vow => vow.IsIncitingIncident))
+        {
+            issues.Add(Error("vow.incitingIncidentRequired", "An inciting-incident vow is required before finalizing.", "vows", "vows"));
         }
 
         for (var index = 0; index < character.Vows.Count; index++)

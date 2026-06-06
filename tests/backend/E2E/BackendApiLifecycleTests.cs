@@ -35,8 +35,13 @@ public sealed class BackendApiLifecycleTests
         Assert.Equal("ironsworn", list["items"]?[0]?["id"]?.GetValue<string>());
         Assert.Equal("summaryApproved", detail["licensingStatus"]?.GetValue<string>());
         Assert.Equal("edge", detail["stats"]?[0]?["id"]?.GetValue<string>());
+        Assert.Equal(2, detail["startingCharacter"]?["requiredActiveVowCount"]?.GetValue<int>());
         Assert.Equal(3, detail["meters"]?.AsArray().Count);
         Assert.Contains(detail["debilities"]!.AsArray(), node => node?["id"]?.GetValue<string>() == "wounded");
+        Assert.Contains(detail["debilities"]!.AsArray(), node => node?["id"]?.GetValue<string>() == "encumbered");
+        Assert.Contains(detail["moves"]!.AsArray(), node => node?["id"]?.GetValue<string>() == "face-danger");
+        Assert.Contains(detail["moves"]!.AsArray(), node => node?["id"]?.GetValue<string>() == "swear-an-iron-vow");
+        Assert.Contains(detail["moves"]!.AsArray(), node => node?["id"]?.GetValue<string>() == "fulfill-your-vow");
         Assert.Contains(detail["assets"]!.AsArray(), asset => asset?["id"]?.GetValue<string>() == "alchemist");
         Assert.Contains(detail["assets"]!.AsArray(), asset => asset?["id"]?.GetValue<string>() == "cave-lion");
         Assert.DoesNotContain(detail["assets"]!.AsArray(), asset => asset?["id"]?.GetValue<string>()?.Contains("placeholder", StringComparison.OrdinalIgnoreCase) == true);
@@ -83,6 +88,32 @@ public sealed class BackendApiLifecycleTests
         Assert.Contains(validation["errors"]!.AsArray(), error => HasIssue(error, "stats.invalidDistribution", "stats", "stats", "error"));
         Assert.Contains(validation["errors"]!.AsArray(), error => HasIssue(error, "assets.invalidCount", "assets", "assets", "error"));
         Assert.Contains(validation["errors"]!.AsArray(), error => HasIssue(error, "vow.activeRequired", "vows", "vows", "error"));
+        Assert.Contains(validation["errors"]!.AsArray(), error => HasIssue(error, "vow.backgroundRequired", "vows", "vows", "error"));
+        Assert.Contains(validation["errors"]!.AsArray(), error => HasIssue(error, "vow.incitingIncidentRequired", "vows", "vows", "error"));
+    }
+
+    [Fact]
+    public async Task FinalizeWithOnlyBackgroundVowReturnsIncitingVowValidationError()
+    {
+        using var temp = new TempDirectory();
+        using var factory = new BackendApiFactory(temp.Path);
+        using var client = factory.CreateClient();
+        var draft = await CreateDraftAsync(client);
+        var character = MakeCompleteCharacter(draft);
+        var characterId = character["id"]!.GetValue<string>();
+        character["progressTracks"] = new JsonArray(ProgressTrack("background-track", "Reclaim Frostmark Hall", "extreme"));
+        character["vows"] = new JsonArray(Vow("background-vow", "Reclaim Frostmark Hall", "extreme", "background-track", isBackground: true, isInciting: false));
+
+        var updateResponse = await client.PutAsJsonAsync($"/api/v1/characters/{characterId}", character);
+        Assert.Equal(HttpStatusCode.OK, updateResponse.StatusCode);
+
+        var finalizeResponse = await client.PostAsJsonAsync($"/api/v1/characters/{characterId}/finalize", new { standardRules = true });
+        var validation = await ReadJsonAsync(finalizeResponse);
+
+        Assert.Equal(HttpStatusCode.BadRequest, finalizeResponse.StatusCode);
+        Assert.Contains(validation["errors"]!.AsArray(), error => HasIssue(error, "vow.activeRequired", "vows", "vows", "error"));
+        Assert.Contains(validation["errors"]!.AsArray(), error => HasIssue(error, "vow.incitingIncidentRequired", "vows", "vows", "error"));
+        Assert.DoesNotContain(validation["errors"]!.AsArray(), error => error?["code"]?.GetValue<string>() == "vow.backgroundRequired");
     }
 
     [Fact]
@@ -221,36 +252,44 @@ public sealed class BackendApiLifecycleTests
             Asset("alchemist", null),
             Asset("cave-lion", "Ash"),
             Asset("archer", null));
-        draft["progressTracks"] = new JsonArray(new JsonObject
-        {
-            ["id"] = "track-id",
-            ["name"] = "Recover the lost banner",
-            ["type"] = "vow",
-            ["rank"] = "dangerous",
-            ["ticks"] = 8,
-            ["maxTicks"] = 40,
-            ["status"] = "active",
-            ["sharedScope"] = "character",
-            ["notes"] = ""
-        });
-        draft["vows"] = new JsonArray(new JsonObject
-        {
-            ["id"] = "vow-id",
-            ["title"] = "Recover the lost banner",
-            ["description"] = "",
-            ["rank"] = "dangerous",
-            ["status"] = "active",
-            ["progressTrackId"] = "track-id",
-            ["isBackgroundVow"] = false,
-            ["isIncitingIncident"] = true,
-            ["experienceAwarded"] = 0,
-            ["notes"] = "",
-            ["createdAt"] = DateTimeOffset.UtcNow,
-            ["completedAt"] = null
-        });
+        draft["progressTracks"] = new JsonArray(
+            ProgressTrack("background-track", "Reclaim Frostmark Hall", "extreme"),
+            ProgressTrack("inciting-track", "Recover the lost banner", "dangerous"));
+        draft["vows"] = new JsonArray(
+            Vow("background-vow", "Reclaim Frostmark Hall", "extreme", "background-track", isBackground: true, isInciting: false),
+            Vow("inciting-vow", "Recover the lost banner", "dangerous", "inciting-track", isBackground: false, isInciting: true));
 
         return draft;
     }
+
+    private static JsonObject ProgressTrack(string id, string name, string rank) => new()
+    {
+        ["id"] = id,
+        ["name"] = name,
+        ["type"] = "vow",
+        ["rank"] = rank,
+        ["ticks"] = 8,
+        ["maxTicks"] = 40,
+        ["status"] = "active",
+        ["sharedScope"] = "character",
+        ["notes"] = ""
+    };
+
+    private static JsonObject Vow(string id, string title, string rank, string progressTrackId, bool isBackground, bool isInciting) => new()
+    {
+        ["id"] = id,
+        ["title"] = title,
+        ["description"] = "",
+        ["rank"] = rank,
+        ["status"] = "active",
+        ["progressTrackId"] = progressTrackId,
+        ["isBackgroundVow"] = isBackground,
+        ["isIncitingIncident"] = isInciting,
+        ["experienceAwarded"] = 0,
+        ["notes"] = "",
+        ["createdAt"] = DateTimeOffset.UtcNow,
+        ["completedAt"] = null
+    };
 
     private static JsonObject Asset(string definitionId, string? companionName) => new()
     {
