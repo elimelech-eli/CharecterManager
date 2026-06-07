@@ -7,10 +7,10 @@ import {
   CircleCheck,
   ClipboardList,
   FileText,
-  HeartPulse,
   Library,
   ListChecks,
   LoaderCircle,
+  Minus,
   Plus,
   RefreshCw,
   Save,
@@ -36,6 +36,7 @@ import type {
   BondDto,
   CharacterDto,
   CharacterSummaryDto,
+  DebilityStateDto,
   DebilityDefinitionDto,
   HealthDto,
   ProgressTrackDto,
@@ -66,6 +67,7 @@ import {
 type AppView = "dashboard" | "characters" | "create" | "character" | "settings";
 type CharacterSubView = "overview" | "assets" | "bonds" | "vows" | "conditions";
 type WizardStepId = "concept" | "stats" | "assets" | "bonds" | "vows" | "review";
+type MeterKey = keyof CharacterDto["conditionMeters"];
 
 const wizardSteps: Array<{ id: WizardStepId; label: string }> = [
   { id: "concept", label: "Concept" },
@@ -266,6 +268,24 @@ export function App() {
     setDraft((current) => (current ? patcher(current) : current));
   }
 
+  async function patchActiveCharacter(patcher: (character: CharacterDto) => CharacterDto) {
+    if (!activeCharacter) {
+      return;
+    }
+
+    const nextCharacter = patcher(activeCharacter);
+    setActiveCharacter(nextCharacter);
+    setSystemError(null);
+
+    try {
+      const saved = await updateCharacter(nextCharacter);
+      setActiveCharacter(saved);
+      await refreshCharacters();
+    } catch (error) {
+      setSystemError(toErrorMessage(error));
+    }
+  }
+
   function navigate(viewName: AppView) {
     setView(viewName);
     if (viewName !== "character") {
@@ -365,6 +385,7 @@ export function App() {
                 character={activeCharacter}
                 onBackToLibrary={() => navigate("characters")}
                 onSubViewChange={setActiveSubView}
+                onUpdateCharacter={(patcher) => void patchActiveCharacter(patcher)}
                 ruleset={ruleset}
                 subView={activeSubView}
               />
@@ -822,6 +843,7 @@ function AssetsStep({
 }) {
   const assets = ruleset?.assets ?? [];
   const requiredCount = ruleset?.startingCharacter.requiredAssetCount ?? 3;
+  const assetGroups = groupAssetsByType(assets);
 
   function toggleAsset(asset: AssetDefinitionDto, checked: boolean) {
     onPatchDraft((character) => {
@@ -854,7 +876,7 @@ function AssetsStep({
 
   return (
     <section className="form-stack">
-      <StepHeading title="Assets" text="Choose three metadata-only starting assets. Full asset card text is intentionally not displayed." />
+      <StepHeading title="Assets" text="Choose three starting assets. Catalog entries show approved summaries instead of full card text." />
       <div className="selected-count">
         <Badge tone={draft.assets.length === requiredCount ? "success" : "warning"}>
           {draft.assets.length} of {requiredCount} selected
@@ -866,33 +888,51 @@ function AssetsStep({
           Asset catalog is unavailable. Draft save is allowed, but final creation requires catalog validation.
         </Notice>
       ) : (
-        <div className="asset-grid">
-          {assets.map((asset) => {
-            const selected = draft.assets.find((selectedAsset) => selectedAsset.definitionId === asset.id);
+        <div className="asset-category-list">
+          {assetGroups.map(([assetType, groupedAssets], index) => {
+            const selectedInGroup = groupedAssets.filter((asset) =>
+              draft.assets.some((selectedAsset) => selectedAsset.definitionId === asset.id)
+            ).length;
+
             return (
-              <Card elevated={Boolean(selected)} key={asset.id}>
-                <div className="card-title-row">
-                  <div>
-                    <span className="meta-label">{asset.type}</span>
-                    <h3>{asset.name}</h3>
-                  </div>
-                  <Checkbox
-                    checked={Boolean(selected)}
-                    label="Select"
-                    onChange={(event) => toggleAsset(asset, event.target.checked)}
-                  />
+              <details className="asset-category" key={assetType} open={index === 0 || selectedInGroup > 0}>
+                <summary>
+                  <span>{formatLabel(assetType)}</span>
+                  <Badge tone={selectedInGroup > 0 ? "success" : "info"}>
+                    {selectedInGroup} of {groupedAssets.length}
+                  </Badge>
+                </summary>
+                <div className="asset-grid">
+                  {groupedAssets.map((asset) => {
+                    const selected = draft.assets.find((selectedAsset) => selectedAsset.definitionId === asset.id);
+                    return (
+                      <Card elevated={Boolean(selected)} key={asset.id}>
+                        <div className="card-title-row">
+                          <div>
+                            <span className="meta-label">{asset.type}</span>
+                            <h3>{asset.name}</h3>
+                          </div>
+                          <Checkbox
+                            checked={Boolean(selected)}
+                            label="Select"
+                            onChange={(event) => toggleAsset(asset, event.target.checked)}
+                          />
+                        </div>
+                        <p>{asset.summary}</p>
+                        {selected && asset.requiresCompanionName ? (
+                          <Field label="Companion name">
+                            <Input
+                              value={selected.companionName ?? ""}
+                              onChange={(event) => patchAsset(asset.id, { companionName: event.target.value })}
+                            />
+                            <FieldError>{firstIssue(issueByField, `assets.${asset.id}.companionName`)}</FieldError>
+                          </Field>
+                        ) : null}
+                      </Card>
+                    );
+                  })}
                 </div>
-                <p>{asset.summary}</p>
-                {selected && asset.requiresCompanionName ? (
-                  <Field label="Companion name">
-                    <Input
-                      value={selected.companionName ?? ""}
-                      onChange={(event) => patchAsset(asset.id, { companionName: event.target.value })}
-                    />
-                    <FieldError>{firstIssue(issueByField, `assets.${asset.id}.companionName`)}</FieldError>
-                  </Field>
-                ) : null}
-              </Card>
+              </details>
             );
           })}
         </div>
@@ -1040,10 +1080,11 @@ function VowsStep({
 
   const backgroundVow = draft.vows.find((vow) => vow.isBackgroundVow);
   const incitingVow = draft.vows.find((vow) => vow.isIncitingIncident);
+  const requiredVows = ruleset?.startingCharacter.requiredActiveVowCount ?? 2;
 
   return (
     <section className="form-stack">
-      <StepHeading title="Starting Vow" text="At least one active vow is required. Both prompts are recommended for a ready-to-play start." />
+      <StepHeading title="Starting Vow" text={`${requiredVows} active vows are required for a standard starting character.`} />
       <FieldError>{firstIssue(issueByField, "vows")}</FieldError>
       <VowEditor
         issueByField={issueByField}
@@ -1135,7 +1176,6 @@ function ReviewStep({
   validation: ValidationResultDto | null;
 }) {
   const checklist = buildChecklist(draft, ruleset);
-  const issues = validationIssues(validation);
 
   return (
     <section className="form-stack">
@@ -1166,13 +1206,7 @@ function ReviewStep({
           </ul>
         </Card>
       </div>
-      <ValidationPanel issues={issues} onStepChange={onStepChange} />
-      <Notice tone="warning" icon={<AlertTriangle />}>
-        <p>
-          TODO: The current validate endpoint checks draft-validity, while finalize returns standard creation errors.
-          Use Finalize for the authoritative creation check until the backend exposes draft final-validation mode.
-        </p>
-      </Notice>
+      <ValidationPanel validation={validation} onStepChange={onStepChange} />
     </section>
   );
 }
@@ -1181,12 +1215,14 @@ function CharacterLayoutView({
   character,
   onBackToLibrary,
   onSubViewChange,
+  onUpdateCharacter,
   ruleset,
   subView
 }: {
   character: CharacterDto;
   onBackToLibrary: () => void;
   onSubViewChange: (subView: CharacterSubView) => void;
+  onUpdateCharacter: (patcher: (character: CharacterDto) => CharacterDto) => void;
   ruleset: RulesetDto | null;
   subView: CharacterSubView;
 }) {
@@ -1213,35 +1249,57 @@ function CharacterLayoutView({
           { label: "Conditions", active: subView === "conditions" }
         ]}
       />
-      {subView === "overview" ? <CharacterOverviewView character={character} ruleset={ruleset} /> : null}
-      {subView === "assets" ? <AssetsReadOnlyView character={character} ruleset={ruleset} /> : null}
-      {subView === "bonds" ? <BondsReadOnlyView character={character} /> : null}
-      {subView === "vows" ? <VowsReadOnlyView character={character} /> : null}
-      {subView === "conditions" ? <ConditionsReadOnlyView character={character} ruleset={ruleset} /> : null}
+      {subView === "overview" ? (
+        <CharacterOverviewView character={character} onUpdateCharacter={onUpdateCharacter} ruleset={ruleset} />
+      ) : null}
+      {subView === "assets" ? (
+        <AssetsView character={character} onUpdateCharacter={onUpdateCharacter} ruleset={ruleset} />
+      ) : null}
+      {subView === "bonds" ? (
+        <BondsView character={character} onUpdateCharacter={onUpdateCharacter} />
+      ) : null}
+      {subView === "vows" ? (
+        <VowsView character={character} onUpdateCharacter={onUpdateCharacter} ruleset={ruleset} />
+      ) : null}
+      {subView === "conditions" ? (
+        <ConditionsView character={character} onUpdateCharacter={onUpdateCharacter} ruleset={ruleset} />
+      ) : null}
     </section>
   );
 }
 
-function CharacterOverviewView({ character, ruleset }: { character: CharacterDto; ruleset: RulesetDto | null }) {
+function CharacterOverviewView({
+  character,
+  onUpdateCharacter,
+  ruleset
+}: {
+  character: CharacterDto;
+  onUpdateCharacter: (patcher: (character: CharacterDto) => CharacterDto) => void;
+  ruleset: RulesetDto | null;
+}) {
   return (
     <div className="overview-layout">
       <Panel title="Core State" eyebrow="Play">
         <div className="meter-grid">
-          <MeterCard label="Health" meter={character.conditionMeters.health} />
-          <MeterCard label="Spirit" meter={character.conditionMeters.spirit} />
-          <MeterCard label="Supply" meter={character.conditionMeters.supply} />
-          <Card>
-            <span className="meta-label">Momentum</span>
-            <strong className="big-value">{character.momentum.current}</strong>
-            <DefinitionList
-              compact
-              items={[
-                ["Max", character.momentum.max.toString()],
-                ["Reset", character.momentum.reset.toString()],
-                ["Minimum", character.momentum.minimum.toString()]
-              ]}
-            />
-          </Card>
+          <MeterEditor
+            label="Health"
+            meter={character.conditionMeters.health}
+            onChange={(value) => onUpdateCharacter((current) => updateConditionMeter(current, "health", value))}
+          />
+          <MeterEditor
+            label="Spirit"
+            meter={character.conditionMeters.spirit}
+            onChange={(value) => onUpdateCharacter((current) => updateConditionMeter(current, "spirit", value))}
+          />
+          <MeterEditor
+            label="Supply"
+            meter={character.conditionMeters.supply}
+            onChange={(value) => onUpdateCharacter((current) => updateConditionMeter(current, "supply", value))}
+          />
+          <MomentumEditor
+            momentum={character.momentum}
+            onChange={(value) => onUpdateCharacter((current) => updateMomentum(current, value))}
+          />
         </div>
       </Panel>
       <Panel title="Stats" eyebrow="Character">
@@ -1271,8 +1329,23 @@ function CharacterOverviewView({ character, ruleset }: { character: CharacterDto
   );
 }
 
-function AssetsReadOnlyView({ character, ruleset }: { character: CharacterDto; ruleset: RulesetDto | null }) {
+function AssetsView({
+  character,
+  onUpdateCharacter,
+  ruleset
+}: {
+  character: CharacterDto;
+  onUpdateCharacter: (patcher: (character: CharacterDto) => CharacterDto) => void;
+  ruleset: RulesetDto | null;
+}) {
   const catalog = new Map((ruleset?.assets ?? []).map((asset) => [asset.id, asset]));
+
+  function patchAsset(assetId: string, patch: Partial<SelectedAssetDto>) {
+    onUpdateCharacter((current) => ({
+      ...current,
+      assets: current.assets.map((asset) => (asset.definitionId === assetId ? { ...asset, ...patch } : asset))
+    }));
+  }
 
   return (
     <section className="card-grid">
@@ -1287,6 +1360,20 @@ function AssetsReadOnlyView({ character, ruleset }: { character: CharacterDto; r
               <h3>{definition?.name ?? asset.definitionId}</h3>
               <p>{definition?.summary ?? "Catalog definition unavailable."}</p>
               {asset.companionName ? <Badge tone="info">{asset.companionName}</Badge> : null}
+              {definition?.requiresCompanionName ? (
+                <Field label="Companion name">
+                  <Input
+                    value={asset.companionName ?? ""}
+                    onChange={(event) => patchAsset(asset.definitionId, { companionName: event.target.value })}
+                  />
+                </Field>
+              ) : null}
+              <Field label="Notes">
+                <Textarea
+                  value={asset.notes}
+                  onChange={(event) => patchAsset(asset.definitionId, { notes: event.target.value })}
+                />
+              </Field>
             </Card>
           );
         })
@@ -1295,25 +1382,128 @@ function AssetsReadOnlyView({ character, ruleset }: { character: CharacterDto; r
   );
 }
 
-function BondsReadOnlyView({ character }: { character: CharacterDto }) {
+function BondsView({
+  character,
+  onUpdateCharacter
+}: {
+  character: CharacterDto;
+  onUpdateCharacter: (patcher: (character: CharacterDto) => CharacterDto) => void;
+}) {
+  function patchBond(id: string, patch: Partial<BondDto>) {
+    onUpdateCharacter((current) => ({
+      ...current,
+      bonds: current.bonds.map((bond) => (bond.id === id ? { ...bond, ...patch } : bond))
+    }));
+  }
+
   return (
-    <section className="card-grid">
+    <section className="screen-stack">
+      <div className="page-actions">
+        <Button
+          icon={<Plus />}
+          variant="secondary"
+          onClick={() => onUpdateCharacter((current) => ({ ...current, bonds: [...current.bonds, createBond()] }))}
+        >
+          Add Bond
+        </Button>
+      </div>
       {character.bonds.length === 0 ? (
         <Notice tone="info">No bonds recorded.</Notice>
       ) : (
-        character.bonds.map((bond) => (
-          <Card key={bond.id}>
-            <h3>{bond.name}</h3>
-            <p>{bond.description || bond.notes || "No notes recorded."}</p>
-            <Badge tone="info">{bond.status}</Badge>
-          </Card>
-        ))
+        <div className="card-grid">
+          {character.bonds.map((bond) => (
+            <Card key={bond.id}>
+              <div className="card-title-row">
+                <h3>{bond.name || "Untitled bond"}</h3>
+                <Button
+                  icon={<Trash2 />}
+                  variant="danger"
+                  onClick={() =>
+                    onUpdateCharacter((current) => ({
+                      ...current,
+                      bonds: current.bonds.filter((candidate) => candidate.id !== bond.id)
+                    }))
+                  }
+                >
+                  Remove
+                </Button>
+              </div>
+              <div className="two-column-form">
+                <Field label="Name">
+                  <Input value={bond.name} onChange={(event) => patchBond(bond.id, { name: event.target.value })} />
+                </Field>
+                <Field label="Status">
+                  <Select value={bond.status} onChange={(event) => patchBond(bond.id, { status: event.target.value })}>
+                    <option value="active">Active</option>
+                    <option value="resolved">Resolved</option>
+                  </Select>
+                </Field>
+                <Field label="Type">
+                  <Input value={bond.type} onChange={(event) => patchBond(bond.id, { type: event.target.value })} />
+                </Field>
+                <Field label="Location">
+                  <Input value={bond.location} onChange={(event) => patchBond(bond.id, { location: event.target.value })} />
+                </Field>
+              </div>
+              <Field label="Notes">
+                <Textarea value={bond.notes} onChange={(event) => patchBond(bond.id, { notes: event.target.value })} />
+              </Field>
+            </Card>
+          ))}
+        </div>
       )}
     </section>
   );
 }
 
-function VowsReadOnlyView({ character }: { character: CharacterDto }) {
+function VowsView({
+  character,
+  onUpdateCharacter,
+  ruleset
+}: {
+  character: CharacterDto;
+  onUpdateCharacter: (patcher: (character: CharacterDto) => CharacterDto) => void;
+  ruleset: RulesetDto | null;
+}) {
+  const ranks = ruleset?.ranks ?? rankFallback;
+
+  function patchVow(vowId: string, patch: Partial<VowDto>) {
+    onUpdateCharacter((current) => ({
+      ...current,
+      vows: current.vows.map((vow) => (vow.id === vowId ? { ...vow, ...patch } : vow)),
+      progressTracks: current.progressTracks.map((track) => {
+        const vow = current.vows.find((candidate) => candidate.id === vowId);
+        if (!vow || track.id !== vow.progressTrackId) {
+          return track;
+        }
+
+        return {
+          ...track,
+          name: patch.title ?? track.name,
+          rank: patch.rank ?? track.rank,
+          status: patch.status ?? track.status
+        };
+      })
+    }));
+  }
+
+  function patchTrack(trackId: string, patch: Partial<ProgressTrackDto>) {
+    onUpdateCharacter((current) => ({
+      ...current,
+      progressTracks: current.progressTracks.map((track) =>
+        track.id === trackId
+          ? {
+              ...track,
+              ...patch,
+              ticks: patch.ticks === undefined ? track.ticks : clamp(patch.ticks, 0, track.maxTicks),
+              progressScore:
+                patch.ticks === undefined ? track.progressScore : Math.floor(clamp(patch.ticks, 0, track.maxTicks) / 4)
+            }
+          : track
+      )
+    }));
+  }
+
   return (
     <section className="card-grid">
       {character.vows.length === 0 ? (
@@ -1324,11 +1514,44 @@ function VowsReadOnlyView({ character }: { character: CharacterDto }) {
           return (
             <Card key={vow.id}>
               <div className="card-title-row">
-                <h3>{vow.title || "Untitled vow"}</h3>
+                <div>
+                  <h3>{vow.title || "Untitled vow"}</h3>
+                  <span className="meta-label">{formatLabel(vow.rank || "unranked")} vow</span>
+                </div>
                 <Badge tone={vow.status === "active" ? "success" : "info"}>{vow.status}</Badge>
               </div>
-              <p>{formatLabel(vow.rank)} vow</p>
-              {track ? <Meter label="Progress" value={(track.ticks / track.maxTicks) * 100} /> : null}
+              <div className="two-column-form">
+                <Field label="Title">
+                  <Input value={vow.title} onChange={(event) => patchVow(vow.id, { title: event.target.value })} />
+                </Field>
+                <Field label="Status">
+                  <Select value={vow.status} onChange={(event) => patchVow(vow.id, { status: event.target.value })}>
+                    <option value="active">Active</option>
+                    <option value="fulfilled">Fulfilled</option>
+                    <option value="forsaken">Forsaken</option>
+                  </Select>
+                </Field>
+                <Field label="Rank">
+                  <Select value={vow.rank} onChange={(event) => patchVow(vow.id, { rank: event.target.value })}>
+                    <option value="">Choose rank</option>
+                    {ranks.map((rank) => (
+                      <option key={rank} value={rank}>
+                        {formatLabel(rank)}
+                      </option>
+                    ))}
+                  </Select>
+                </Field>
+              </div>
+              {track ? (
+                <ProgressEditor
+                  label={`Progress for ${vow.title || track.name}`}
+                  track={track}
+                  onChange={(ticks) => patchTrack(track.id, { ticks })}
+                />
+              ) : null}
+              <Field label="Notes">
+                <Textarea value={vow.notes} onChange={(event) => patchVow(vow.id, { notes: event.target.value })} />
+              </Field>
             </Card>
           );
         })
@@ -1337,7 +1560,15 @@ function VowsReadOnlyView({ character }: { character: CharacterDto }) {
   );
 }
 
-function ConditionsReadOnlyView({ character, ruleset }: { character: CharacterDto; ruleset: RulesetDto | null }) {
+function ConditionsView({
+  character,
+  onUpdateCharacter,
+  ruleset
+}: {
+  character: CharacterDto;
+  onUpdateCharacter: (patcher: (character: CharacterDto) => CharacterDto) => void;
+  ruleset: RulesetDto | null;
+}) {
   const marked = character.debilities.filter((debility) => debility.marked);
   const definitions = new Map((ruleset?.debilities ?? []).map((definition) => [definition.id, definition]));
 
@@ -1345,32 +1576,55 @@ function ConditionsReadOnlyView({ character, ruleset }: { character: CharacterDt
     <div className="overview-layout">
       <Panel title="Meters" eyebrow="Conditions">
         <div className="meter-grid">
-          <MeterCard label="Health" meter={character.conditionMeters.health} />
-          <MeterCard label="Spirit" meter={character.conditionMeters.spirit} />
-          <MeterCard label="Supply" meter={character.conditionMeters.supply} />
+          <MeterEditor
+            label="Health"
+            meter={character.conditionMeters.health}
+            onChange={(value) => onUpdateCharacter((current) => updateConditionMeter(current, "health", value))}
+          />
+          <MeterEditor
+            label="Spirit"
+            meter={character.conditionMeters.spirit}
+            onChange={(value) => onUpdateCharacter((current) => updateConditionMeter(current, "spirit", value))}
+          />
+          <MeterEditor
+            label="Supply"
+            meter={character.conditionMeters.supply}
+            onChange={(value) => onUpdateCharacter((current) => updateConditionMeter(current, "supply", value))}
+          />
         </div>
       </Panel>
       <Panel title="Momentum" eyebrow="Derived">
-        <DefinitionList
-          items={[
-            ["Current", character.momentum.current.toString()],
-            ["Max", character.momentum.max.toString()],
-            ["Reset", character.momentum.reset.toString()],
-            ["Marked debilities", character.momentum.markedDebilityCount.toString()]
-          ]}
+        <MomentumEditor
+          momentum={character.momentum}
+          onChange={(value) => onUpdateCharacter((current) => updateMomentum(current, value))}
         />
       </Panel>
       <Panel title="Debilities" eyebrow="State">
-        {marked.length === 0 ? (
-          <Notice tone="success" icon={<CircleCheck />}>No debilities marked.</Notice>
-        ) : (
+        {marked.length > 0 ? (
           <div className="chip-row">
             {marked.map((debility) => {
               const definition = definitions.get(debility.definitionId);
               return <Badge key={debility.definitionId} tone="warning">{definition?.name ?? debility.definitionId}</Badge>;
             })}
           </div>
+        ) : (
+          <Notice tone="success" icon={<CircleCheck />}>No debilities marked.</Notice>
         )}
+        <div className="choice-grid">
+          {(ruleset?.debilities ?? []).map((definition) => {
+            const debility = character.debilities.find((candidate) => candidate.definitionId === definition.id);
+            return (
+              <Checkbox
+                checked={Boolean(debility?.marked)}
+                key={definition.id}
+                label={definition.name}
+                onChange={(event) =>
+                  onUpdateCharacter((current) => updateDebility(current, definition, event.target.checked))
+                }
+              />
+            );
+          })}
+        </div>
       </Panel>
     </div>
   );
@@ -1396,7 +1650,7 @@ function SettingsView({
           </Button>
         }
       >
-        <p>Local backend status, rules content versions, and attribution placeholders.</p>
+        <p>Local backend status, rules content versions, and licensing state.</p>
       </PageHeader>
       <div className="summary-grid">
         <Panel title="Backend" eyebrow="Local service">
@@ -1419,11 +1673,8 @@ function SettingsView({
           />
         </Panel>
       </div>
-      <Notice tone="warning" icon={<AlertTriangle />}>
-        Attribution and licensing text is pending product/legal approval. This UI does not display full official move or asset text.
-      </Notice>
       <Notice tone="info" icon={<FileText />}>
-        TODO: Sheet projection endpoint is not implemented yet; printable sheet architecture remains deferred.
+        Rules catalog entries display approved summaries. Full official move and asset text is not displayed.
       </Notice>
     </section>
   );
@@ -1474,14 +1725,133 @@ function DefinitionList({ compact = false, items }: { compact?: boolean; items: 
   );
 }
 
-function MeterCard({ label, meter }: { label: string; meter: { current: number; min: number; max: number; isLocked: boolean } }) {
+function MeterEditor({
+  label,
+  meter,
+  onChange
+}: {
+  label: string;
+  meter: { current: number; min: number; max: number; isLocked: boolean };
+  onChange: (value: number) => void;
+}) {
+  const canDecrease = meter.current > meter.min;
+  const canIncrease = meter.current < meter.max && !meter.isLocked;
+
   return (
     <Card>
-      <span className="meta-label">{label}</span>
-      <strong className="big-value">{meter.current}</strong>
+      <div className="control-card-header">
+        <div>
+          <span className="meta-label">{label}</span>
+          <strong className="big-value">{meter.current}</strong>
+        </div>
+        <div className="stepper" aria-label={`${label} controls`}>
+          <Button
+            aria-label={`Decrease ${label}`}
+            disabled={!canDecrease}
+            icon={<Minus />}
+            variant="secondary"
+            onClick={() => onChange(meter.current - 1)}
+          >
+            <span className="sr-only">Decrease</span>
+          </Button>
+          <Button
+            aria-label={`Increase ${label}`}
+            disabled={!canIncrease}
+            icon={<Plus />}
+            variant="secondary"
+            onClick={() => onChange(meter.current + 1)}
+          >
+            <span className="sr-only">Increase</span>
+          </Button>
+        </div>
+      </div>
       <Meter label={`${label} meter`} value={(meter.current / meter.max) * 100} />
       {meter.isLocked ? <Badge tone="warning">Recovery locked</Badge> : null}
     </Card>
+  );
+}
+
+function MomentumEditor({
+  momentum,
+  onChange
+}: {
+  momentum: CharacterDto["momentum"];
+  onChange: (value: number) => void;
+}) {
+  return (
+    <Card>
+      <div className="control-card-header">
+        <div>
+          <span className="meta-label">Momentum</span>
+          <strong className="big-value">{momentum.current}</strong>
+        </div>
+        <div className="stepper" aria-label="Momentum controls">
+          <Button
+            aria-label="Decrease Momentum"
+            disabled={momentum.current <= momentum.minimum}
+            icon={<Minus />}
+            variant="secondary"
+            onClick={() => onChange(momentum.current - 1)}
+          >
+            <span className="sr-only">Decrease</span>
+          </Button>
+          <Button
+            aria-label="Increase Momentum"
+            disabled={momentum.current >= momentum.max}
+            icon={<Plus />}
+            variant="secondary"
+            onClick={() => onChange(momentum.current + 1)}
+          >
+            <span className="sr-only">Increase</span>
+          </Button>
+        </div>
+      </div>
+      <DefinitionList
+        compact
+        items={[
+          ["Max", momentum.max.toString()],
+          ["Reset", momentum.reset.toString()],
+          ["Minimum", momentum.minimum.toString()],
+          ["Marked debilities", momentum.markedDebilityCount.toString()]
+        ]}
+      />
+    </Card>
+  );
+}
+
+function ProgressEditor({
+  label,
+  onChange,
+  track
+}: {
+  label: string;
+  onChange: (ticks: number) => void;
+  track: ProgressTrackDto;
+}) {
+  return (
+    <div className="progress-editor">
+      <Meter label={`${track.ticks} of ${track.maxTicks} ticks`} value={(track.ticks / track.maxTicks) * 100} />
+      <div className="stepper" aria-label={label}>
+        <Button
+          aria-label={`Decrease ${label}`}
+          disabled={track.ticks <= 0}
+          icon={<Minus />}
+          variant="secondary"
+          onClick={() => onChange(track.ticks - 1)}
+        >
+          <span className="sr-only">Decrease</span>
+        </Button>
+        <Button
+          aria-label={`Increase ${label}`}
+          disabled={track.ticks >= track.maxTicks}
+          icon={<Plus />}
+          variant="secondary"
+          onClick={() => onChange(track.ticks + 1)}
+        >
+          <span className="sr-only">Increase</span>
+        </Button>
+      </div>
+    </div>
   );
 }
 
@@ -1509,16 +1879,26 @@ function ProgressList({ tracks, vows }: { tracks: ProgressTrackDto[]; vows: VowD
 }
 
 function ValidationPanel({
-  issues,
+  validation,
   onStepChange
 }: {
-  issues: ValidationIssueDto[];
+  validation: ValidationResultDto | null;
   onStepChange: (step: WizardStepId) => void;
 }) {
+  const issues = validationIssues(validation);
+
+  if (!validation) {
+    return (
+      <Notice tone="info" icon={<CircleAlert />}>
+        Backend validation has not run yet. Click Validate or Finalize to check this draft.
+      </Notice>
+    );
+  }
+
   if (issues.length === 0) {
     return (
       <Notice tone="success" icon={<CircleCheck />}>
-        No backend validation issues are currently reported.
+        Backend validation passed.
       </Notice>
     );
   }
@@ -1562,6 +1942,7 @@ function InfoIcon() {
 
 function buildChecklist(character: CharacterDto, ruleset: RulesetDto | null) {
   const requiredAssets = ruleset?.startingCharacter.requiredAssetCount ?? 3;
+  const requiredVows = ruleset?.startingCharacter.requiredActiveVowCount ?? 2;
   const activeVowCount = character.vows.filter((vow) => vow.status === "active" && vow.title && vow.rank).length;
   const statValues = Object.values(character.stats).sort((a, b) => b - a).join(",");
   const expectedStats = (ruleset?.startingCharacter.statArray ?? [3, 2, 2, 1, 1]).sort((a, b) => b - a).join(",");
@@ -1571,8 +1952,61 @@ function buildChecklist(character: CharacterDto, ruleset: RulesetDto | null) {
     { label: "Stats use the standard array", complete: statValues === expectedStats, step: "stats" as WizardStepId },
     { label: `Exactly ${requiredAssets} assets selected`, complete: character.assets.length === requiredAssets, step: "assets" as WizardStepId },
     { label: "Background bonds are within the starting limit", complete: character.bonds.length <= (ruleset?.startingCharacter.maxStartingBonds ?? 3), step: "bonds" as WizardStepId },
-    { label: "At least one active vow has title and rank", complete: activeVowCount >= 1, step: "vows" as WizardStepId }
+    { label: `At least ${requiredVows} active vows have title and rank`, complete: activeVowCount >= requiredVows, step: "vows" as WizardStepId }
   ];
+}
+
+function groupAssetsByType(assets: AssetDefinitionDto[]) {
+  const grouped = new Map<string, AssetDefinitionDto[]>();
+  for (const asset of assets) {
+    grouped.set(asset.type, [...(grouped.get(asset.type) ?? []), asset]);
+  }
+
+  return Array.from(grouped.entries()).sort(([left], [right]) => left.localeCompare(right));
+}
+
+function updateConditionMeter(character: CharacterDto, key: MeterKey, value: number): CharacterDto {
+  const meter = character.conditionMeters[key];
+  return {
+    ...character,
+    conditionMeters: {
+      ...character.conditionMeters,
+      [key]: { ...meter, current: clamp(value, meter.min, meter.max) }
+    }
+  };
+}
+
+function updateMomentum(character: CharacterDto, value: number): CharacterDto {
+  return {
+    ...character,
+    momentum: {
+      ...character.momentum,
+      current: clamp(value, character.momentum.minimum, character.momentum.max)
+    }
+  };
+}
+
+function updateDebility(character: CharacterDto, definition: DebilityDefinitionDto, marked: boolean): CharacterDto {
+  const now = new Date().toISOString();
+  const existing = character.debilities.find((debility) => debility.definitionId === definition.id);
+  const nextDebility: DebilityStateDto = {
+    definitionId: definition.id,
+    marked,
+    notes: existing?.notes ?? "",
+    linkedVowId: existing?.linkedVowId ?? null,
+    markedAt: marked ? existing?.markedAt ?? now : existing?.markedAt ?? null,
+    clearedAt: marked ? null : now
+  };
+
+  const debilities = existing
+    ? character.debilities.map((debility) => (debility.definitionId === definition.id ? nextDebility : debility))
+    : [...character.debilities, nextDebility];
+
+  return { ...character, debilities };
+}
+
+function clamp(value: number, min: number, max: number) {
+  return Math.min(Math.max(value, min), max);
 }
 
 function createBond(): BondDto {
