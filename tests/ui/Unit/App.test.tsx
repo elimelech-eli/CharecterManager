@@ -217,4 +217,18 @@ describe("CharacterManager app shell", () => {
     });
     expect(screen.getByRole("button", { name: "Open Concept" })).toBeInTheDocument();
   });
+
+  it("does not show validation success before backend validation runs", async () => {
+    const user = userEvent.setup();
+    installFetchMock();
+
+    render(<App />);
+
+    await screen.findByRole("heading", { name: "Character Library" });
+    await user.click(screen.getAllByRole("button", { name: "New Character" })[0]);
+    await user.click(screen.getByRole("button", { name: /Review/ }));
+
+    expect(screen.getByText("Backend validation has not run yet. Click Validate or Finalize to check this draft.")).toBeInTheDocument();
+    expect(screen.queryByText("Backend validation passed.")).not.toBeInTheDocument();
+  });
 });
